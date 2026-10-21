@@ -14,19 +14,19 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_version_is_release_version():
-    assert memorix.__version__ == "0.2.1"
+    assert memorix.__version__ == "0.2.2"
 
 
 def test_pyproject_scripts_and_license():
     data = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     assert data["project"]["name"] == "mem-patrol"
-    assert data["project"]["version"] == "0.2.1"
+    assert data["project"]["version"] == "0.2.2"
     scripts = data["project"]["scripts"]
     assert scripts["memorix"] == "memorix.cli:main"
     assert scripts["memorix-mcp"] == "memorix.mcp.server:main"
     assert scripts["mem-patrol"] == "memorix.cli:main"
     assert scripts["mem-patrol-mcp"] == "memorix.mcp.server:main"
-    assert data["project"]["license"] == "Apache-2.0"
+    assert data["project"]["license"] == "MIT"
     assert "LICENSE" in data["project"]["license-files"]
     assert "jieba" in data["project"]["optional-dependencies"]["anchor"][0]
     assert "pytest" in data["project"]["optional-dependencies"]["test"][0]
@@ -34,7 +34,7 @@ def test_pyproject_scripts_and_license():
 
 def test_license_and_changelog_exist():
     license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
-    assert "Apache License" in license_text and "Version 2.0" in license_text
+    assert "MIT License" in license_text and "Permission is hereby granted" in license_text
     changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
     assert "0.2.0" in changelog and "MCP" in changelog
 

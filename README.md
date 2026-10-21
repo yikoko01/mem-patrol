@@ -9,9 +9,18 @@ config-audit snapshot diff, decay/consolidation planning, intent expiry, finish
 gate, lexical recall scorer, composable decision gates, metrics, offline eval,
 untrusted wrapper and an MCP stdio server.
 
-M0–M4 are **host-agnostic kernels**: no AstrBot import, no network. File IO lives
+M0–M4 are **host-agnostic kernels**: no IM framework or AstrBot import, no network. File IO lives
 behind `memorix.adapters.files`; the CLI/store (M1), the recall scorer (M1.5)
 and the gatekeep decision kernel (M2) build on the M0 pure policies.
+
+## Is this AstrBot-specific?
+
+**No.** The package has no AstrBot import or dependency. Its *default* SQLite schema is a
+three-table layout that originated in AstrBot, and one example schema documents an AstrBot
+handoff, but any SQLite schema can be mapped with `--schema`. The MCP server, CLI and kernels
+are host-agnostic; AstrBot is one possible producer/consumer, not a requirement.
+
+See [docs/FAQ.md](docs/FAQ.md) for the host-compatibility and license questions.
 
 ## Install
 
@@ -19,10 +28,9 @@ and the gatekeep decision kernel (M2) build on the M0 pure policies.
 > 发行包名是 **`mem-patrol`**，导入包/原 CLI 仍叫 **`memorix`**。
 
 ```bash
-cd /sdcard/dsh-work/memorix
 python -m pip install .                 # installs distribution mem-patrol
 python -m pip install '.[test]'         # pytest + jieba for the full suite
-memorix --version                       # mem-patrol 0.2.1 (import/CLI name stays memorix)
+memorix --version                       # mem-patrol 0.2.2 (import/CLI name stays memorix)
 mem-patrol --version                    # distribution alias, same CLI
 ```
 
@@ -30,7 +38,7 @@ For a local checkout, `PYTHONPATH=src` works without installing.
 
 ## Foreign databases (schema mapping)
 
-Your tables do not need the native AstrBot names:
+Your tables do not need the default/legacy table names:
 
 ```bash
 memorix diagnose --db my.db --schema schema.json   # explicit mapping
@@ -40,9 +48,10 @@ MEMORIX_SCHEMA=schema.json memorix diagnose --db my.db
 
 Only a memories table is required; message-dependent features (`status`/`finish`) return a
 clear `SchemaError` when `raw_messages`/`bot_messages` are not mapped. MCP tools accept a
-`schema` argument. A real AstrBot handoff is included at
+`schema` argument. A real handoff example is included at
 [examples/astrbot-self-learning.schema.json](examples/astrbot-self-learning.schema.json)
 (ms/s units, `archived` exclusion, private-chat rule; verified on a read-only 1254-memory snapshot).
+AstrBot is only the origin of this example, not a dependency.
 See [docs/SCHEMA.md](docs/SCHEMA.md).
 
 ## Use-case profiles (chat / project / both)
@@ -72,14 +81,7 @@ protocol `2025-06-18` / `2025-03-26` / `2024-11-05`. See `docs/MCP.md`.
 ## Run the tests (no install needed)
 
 ```bash
-cd /sdcard/dsh-work/memorix
-/root/AstrBot/.venv/bin/python -m pytest -p no:cacheprovider
-```
-
-or with any Python >= 3.10 that has pytest:
-
-```bash
-python -m pytest -p no:cacheprovider
+python -m pytest -p no:cacheprovider   # any Python >= 3.10 with pytest
 ```
 
 `pyproject.toml` sets `pythonpath = ["src"]`, so the package is importable
@@ -105,14 +107,13 @@ eval/baseline.json             evaluation baseline (M3)
 dist/                          built wheel/sdist (M4)
 tests/                         pytest-native tests (363)
 docs/                          M0–M4 reports + USE-CASES/MCP/README samples
-LICENSE, CHANGELOG.md          Apache-2.0 + release notes
+LICENSE, CHANGELOG.md          MIT + release notes
 ```
 
 ## CLI (M1)
 
 ```bash
-cd /sdcard/dsh-work/memorix
-PYTHONPATH=src /root/AstrBot/.venv/bin/python -m memorix diagnose --db <path/to/messages.db>
+PYTHONPATH=src python -m memorix diagnose --db <path/to/messages.db>
 ```
 
 All commands are **read-only by default**; writes require `--apply` and take a
@@ -124,7 +125,7 @@ approved design decisions.
 ## Recall scorer (M1.5)
 
 ```bash
-PYTHONPATH=src /root/AstrBot/.venv/bin/python -m memorix.retrieval.bench
+PYTHONPATH=src python -m memorix.retrieval.bench
 # RESULT 6/6 passed
 ```
 
@@ -169,9 +170,9 @@ packaging — see `docs/M4.md`.
 
 ## License
 
-Apache-2.0. See `LICENSE`.
+**MIT**. See `LICENSE` (0.2.2+; earlier releases were Apache-2.0).
 
 ## Safety
 
-M0 was extracted from production **read-only**. Nothing under `/root/AstrBot`
-is modified by this package or its tests. See `docs/M0.md`.
+M0 was extracted from a running production system **read-only**; this package never
+writes the source system. See `docs/M0.md` for provenance.

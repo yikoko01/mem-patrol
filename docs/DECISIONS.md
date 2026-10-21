@@ -8,7 +8,7 @@
 | 2 | 发布粒度 | **先独立 `memorix/`**；`gatekeep` 到时平级加目录（兼容 monorepo/两仓库） |
 | 3 | 巡检编排（最关键） | **混合**：确定性状态机 `audit→status→extract→apply→consolidate→finish`；LLM 只在「提炼」格出现；自由 SOP 保留兜底 |
 | 4 | 裁判是否绑 IM | **通用 Context**（不绑 QQ/AstrBot），M2 再落地 |
-| 5 | 开源协议/社区改判据 | **Apache-2.0**；判据改动须带离线评测（M3 后） |
+| 5 | 开源协议/社区改判据 | **MIT（0.2.2 起；原 Apache-2.0）**；判据改动须带离线评测（M3 后） |
 | 6 | 召回打分器是否一开始做双档（2026-10-21 指南追加） | **先 lexical（零依赖，可选 jieba 锚定），保留 `vector` provider 接口**；两档共用 §10.3 六条用例（M1.5 落地） |
 
 ## 对 M1 的直接约束
@@ -17,7 +17,7 @@
   `consolidate` 只提供 `--show`（给 LLM 的候选窗口）与 `--apply-file`（校验后的计划），不在代码里猜语义。
 - 第 1 条：不引第三方运行时依赖（M1 仍只用 stdlib；pytest 仅测试期）。
 - 第 4 条：M1 不引入任何 IM 类型；Context 定义留到 M2。
-- 第 5 条：先按 Apache-2.0 保留（LICENSE 待 M4 发布前补全）。
+- 第 5 条：M4 曾用 Apache-2.0；0.2.2 按用户要求改为 MIT（更宽松），历史 release 的许可证保持不变。
 
 ## 本次「诊断修复」的口径
 

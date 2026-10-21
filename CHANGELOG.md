@@ -3,6 +3,14 @@
 All notable changes to this project. The kernels are extracted read-only from the
 production AstrBot patrol/private-companion systems; production code is untouched.
 
+## [0.2.2] - 2026-10-22
+
+### Changed
+- License changed from Apache-2.0 to **MIT** (more permissive).
+- Docs de-emphasize the AstrBot origin: host-agnostic positioning, generic
+  quickstart/tests, and a dedicated FAQ. AstrBot remains only a compatibility
+  example, not a dependency.
+
 ## [0.2.1] - 2026-10-22
 
 ### Fixed

@@ -17,7 +17,8 @@ _EVIDENCE_RE = re.compile(
     r"(我查了|我翻了|我搜了|我检索了|我看了|我读过|翻了一下|查了一遍|搜了一遍"
     r"|翻了台账|翻了记忆|查了库|查了台账|查了记录|搜了|检索过)"
 )
-RETRIEVAL_PREFIXES = (
+RETRIEVAL_PREFIXES = (  # defaults from one host; adapters may supply their own
+
     "pc_query", "pc_get_", "pc_manage_", "pc_view_", "pc_send_music",
     "pc_send_pixiv", "pc_find_reaction", "astrbot_execute_shell",
     "astrbot_execute_python", "astrbot_file", "web_search", "fetch_web",

@@ -1,6 +1,7 @@
 """Storage adapter over a SQLite database with a configurable schema.
 
-Native AstrBot schema is the default; foreign schemas are supported through
+Native three-table schema (originated in AstrBot, not a dependency) is the
+default; foreign schemas are supported through
 ``schema.Schema`` (explicit JSON mapping or ``auto`` detection). Only the
 memories table is required; message tables are optional and message-dependent
 features raise a clear ``SchemaError`` when they are absent.

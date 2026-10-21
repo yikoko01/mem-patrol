@@ -1,8 +1,8 @@
 """M0 data contracts (pure data only, no IO).
 
-The records mirror the shapes used by the production patrol script
-(`/root/AstrBot/data/patrol/memory_patrol.py`, read-only reference), but they are
-plain dataclasses so the kernel never has to import ``sqlite3``.
+The records mirror the shapes used by the production patrol script we
+extracted from (read-only reference), but they are plain dataclasses so the
+kernel never has to import ``sqlite3`` or a host framework.
 """
 from __future__ import annotations
 

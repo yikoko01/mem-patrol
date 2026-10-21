@@ -1,8 +1,9 @@
 """Configurable SQL schema mapping / auto-detection (post-M4 generic adapter).
 
-The native AstrBot schema has three tables (``memories`` / ``raw_messages`` /
-``bot_messages``). Other projects have their own tables and column names; this
-module maps them without touching the data:
+The default schema has three tables (``memories`` / ``raw_messages`` /
+``bot_messages``; the layout originated in AstrBot but is not a dependency).
+Other projects have their own tables and column names; this module maps them
+without touching the data:
 
 * explicit mapping: a JSON file / inline JSON / ``Schema`` object;
 * ``auto``: inspect the SQLite catalog and pick a memories table (+ optional
