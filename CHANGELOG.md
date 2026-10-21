@@ -1,0 +1,58 @@
+# Changelog
+
+All notable changes to this project. The kernels are extracted read-only from the
+production AstrBot patrol/private-companion systems; production code is untouched.
+
+## [0.2.0] - 2026-10-21
+
+First installable release (M0–M4).
+
+### Added
+- **memorix (M0–M1)**: pure policies (orphan gate, sender labels, audit snapshot,
+  decay/consolidation planning, intent expiry, finish gate), SQLite storage
+  adapter (read-only by default), path-parameterized diagnose/repair CLI.
+- **retrieval (M1.5)**: dependency-free lexical recall scorer with optional
+  jieba anchoring, point-in-time replay, query/instruction separation and the
+  guide §10.3 six-case bench (6/6).
+- **gatekeep (M2)**: host-agnostic decision kernel (`Context` → `Decision`
+  `{allow,text,reason,needs_tools}`), composable gates, directed fast path,
+  needs-tools handoff/tool_task routing, shadow precision bookkeeping,
+  pure reviewers and a 9-case judge replay set.
+- **observability (M3)**: structured metric events, percentile/cost/reason
+  aggregation, dependency-free SVG/HTML reports and a JSONL report CLI.
+- **eval (M3)**: offline replay suites (recall/judge/policy) with JSON reports
+  and baseline regression (`--update-baseline` refuses red reports).
+- **safety (M3)**: unified `<untrusted>` wrapper (control chars, tag breakout,
+  source whitelist, truncation).
+- **MCP server (M4)**: zero-dependency stdio MCP server
+  (`memorix-mcp`) exposing six read-only tools; supports protocol versions
+  2025-06-18 / 2025-03-26 / 2024-11-05.
+- **Packaging (M4)**: Apache-2.0 LICENSE, wheels/sdist, console scripts,
+  GitHub Actions CI + tag release workflow.
+
+### Changed (M4.5)
+- Distribution/repo name is now **`mem-patrol`** (import package and existing CLI remain
+  `memorix`; aliases `mem-patrol`/`mem-patrol-mcp` added). Avoids the taken
+  `memorix` PyPI/GitHub name; bilingual copy in `docs/NAMING.md`.
+
+### Added (M4.3)
+- Production handoff schema form (`tables/columns`) with `unit` (ms/s),
+  `exclude` (archived) and private-chat rule (`group_id == sender_id`);
+  `recent_private_context()`; example `examples/astrbot-self-learning.schema.json`
+  verified on a read-only AstrBot snapshot (1254 memories / 4079 raw / 6173 bot).
+
+### Added (M4.2)
+- Configurable SQL schema mapping / auto-detection (`--schema native|auto|JSON`,
+  `MEMORIX_SCHEMA`, MCP `schema` arg): only a memories table is required;
+  message-dependent features fail with a clear `SchemaError`.
+
+### Added (M4.1)
+- Use-case presets `chat` / `project` / `both` (`memorix.profiles`) with an MCP
+  tool allow-list (`memorix-mcp --profile ...`), CLI `memorix profile`, a switch
+  matrix (`docs/USE-CASES.md`) and a copy-ready two-mode README sample.
+
+### Notes
+- Runtime has **no third-party dependencies**; `jieba` is an optional anchor
+  extra (`pip install -e '.[anchor]'`), pytest+jieba for tests (`.[test]`).
+- All tools are read-only. Repair commands stay in the CLI behind `--apply`
+  (with automatic database snapshots).

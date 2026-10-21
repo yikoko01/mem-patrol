@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "generated_at": 1792594804,
+  "suites": {
+    "recall": {
+      "passed": 6,
+      "failed": 0,
+      "cases": {
+        "case1-start": true,
+        "case2-hardest": true,
+        "case3-versions": true,
+        "case4-ummm": true,
+        "case5-weather": true,
+        "case6-group-instruction": true
+      }
+    },
+    "judge": {
+      "passed": 9,
+      "failed": 0,
+      "cases": {
+        "allow-ambient": true,
+        "deny-no-value": true,
+        "needs-tools-directed": true,
+        "needs-tools-ambient": true,
+        "invalid-json": true,
+        "gate-disabled": true,
+        "explicit-direction-ambient": true,
+        "silent-conflict": true,
+        "daily-cap": true
+      }
+    },
+    "policy": {
+      "passed": 9,
+      "failed": 0,
+      "cases": {
+        "parse-ts": true,
+        "orphan": true,
+        "decay": true,
+        "decay-contract-exempt": true,
+        "intent-expiry": true,
+        "finish-none": true,
+        "finish-refusal": true,
+        "audit-benign": true,
+        "consolidation-validate": true
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install + test
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install '.[test]'
+          python -m pytest -p no:cacheprovider
+          python -m memorix.eval --suite all --baseline eval/baseline.json
+          python -m memorix.retrieval.bench
+          python -m memorix.gatekeep.bench
+
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build sdist + wheel
+        run: python -m pip install --upgrade pip build && python -m build
+      - name: Verify wheel installs and runs
+        run: |
+          python -m venv /tmp/release-venv
+          /tmp/release-venv/bin/pip install --no-deps dist/*.whl
+          /tmp/release-venv/bin/memorix --version
+          /tmp/release-venv/bin/python -m memorix.eval --suite policy --baseline eval/baseline.json
+      - name: Create GitHub release with artifacts
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true

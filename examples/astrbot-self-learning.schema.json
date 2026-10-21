@@ -1,0 +1,39 @@
+{
+  "dialect": "sqlite",
+  "path": "/root/AstrBot/data/plugin_data/astrbot_plugin_self_learning/messages.db",
+  "read_only": true,
+  "tables": {
+    "memories": {
+      "columns": {
+        "id": {"type": "integer", "pk": true},
+        "content": {"type": "text"},
+        "importance": {"type": "integer", "min": 0, "max": 10},
+        "memory_type": {"type": "text", "exclude": ["archived"]},
+        "created_at": {"type": "integer", "unit": "ms"},
+        "group_id": {"type": "text"},
+        "user_id": {"type": "text"}
+      },
+      "primary_text_column": "content"
+    },
+    "raw_messages": {
+      "columns": {
+        "id": {"type": "integer", "pk": true},
+        "sender_id": {"type": "text"},
+        "sender_name": {"type": "text"},
+        "message": {"type": "text"},
+        "group_id": {"type": "text", "note": "private when group_id == sender_id"},
+        "timestamp": {"type": "integer", "unit": "s"}
+      },
+      "primary_text_column": "message"
+    },
+    "bot_messages": {
+      "columns": {
+        "id": {"type": "integer", "pk": true},
+        "message": {"type": "text"},
+        "timestamp": {"type": "integer", "unit": "s"},
+        "group_id": {"type": "text"}
+      },
+      "primary_text_column": "message"
+    }
+  }
+}

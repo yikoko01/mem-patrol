@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mem-patrol"
+version = "0.2.0"
+description = "Memory patrol, lexical recall and conversation gates for long-lived agents (CLI + MCP, zero runtime dependencies)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "MemPatrol contributors" }]
+keywords = ["memory", "patrol", "recall", "decision", "agent", "mcp", "sqlite", "chatbot"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Operating System :: OS Independent",
+]
+
+[project.scripts]
+memorix = "memorix.cli:main"
+memorix-mcp = "memorix.mcp.server:main"
+mem-patrol = "memorix.cli:main"
+mem-patrol-mcp = "memorix.mcp.server:main"
+
+[project.optional-dependencies]
+anchor = ["jieba>=0.42"]
+test = ["pytest>=8", "jieba>=0.42"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"memorix.gatekeep.prompts" = ["*.md"]
+"memorix.gatekeep.fixtures" = ["*.jsonl"]
+"memorix.eval" = ["baseline.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"

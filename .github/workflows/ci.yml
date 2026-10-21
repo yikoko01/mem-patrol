@@ -1,0 +1,51 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install (test extra)
+        run: python -m pip install --upgrade pip && python -m pip install -e '.[test]'
+      - name: Unit + integration tests
+        run: python -m pytest -p no:cacheprovider
+      - name: Recall replay bench (6 cases)
+        run: python -m memorix.retrieval.bench
+      - name: Judge replay bench (9 cases)
+        run: python -m memorix.gatekeep.bench
+      - name: Offline evaluation vs baseline
+        run: python -m memorix.eval --suite all --baseline eval/baseline.json
+
+  package:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build sdist + wheel
+        run: python -m pip install --upgrade pip build && python -m build
+      - name: Install wheel and smoke-test
+        run: |
+          python -m venv /tmp/memorix-venv
+          /tmp/memorix-venv/bin/pip install --no-deps dist/*.whl
+          /tmp/memorix-venv/bin/memorix --version
+          /tmp/memorix-venv/bin/python -m memorix.gatekeep.bench
+          printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}' | /tmp/memorix-venv/bin/memorix-mcp > /tmp/mcp-init.json
+          python -c "import json;d=json.load(open('/tmp/mcp-init.json'));assert d['result']['serverInfo']['name']=='memorix'"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: memorix-dist
+          path: dist/*
