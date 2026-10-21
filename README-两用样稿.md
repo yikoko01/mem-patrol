@@ -19,7 +19,7 @@ python -m memorix.profiles --name chat
 ## 🚀 快速开始
 
 ```bash
-pip install dist/mem_patrol-0.2.2-py3-none-any.whl  # 或 pip install .
+pip install dist/mem_patrol-0.2.3-py3-none-any.whl  # 或 pip install .
 memorix --version                                  # 导入/CLI 名仍是 memorix
 
 # 聊天面（MCP，只读工具 3 个）

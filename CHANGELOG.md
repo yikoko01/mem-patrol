@@ -3,6 +3,14 @@
 All notable changes to this project. The kernels are extracted read-only from the
 production AstrBot patrol/private-companion systems; production code is untouched.
 
+## [0.2.3] - 2026-10-22
+
+### Added
+- Privacy-preserving **real-corpus regression**: `eval/real_corpus.json`
+  (snapshot SHA-256 + queries + expected ids + content hashes; no production text)
+  and `python -m memorix.eval.real_corpus`.
+- PyPI trusted-publishing workflow (`publish.yml`, manual dispatch).
+
 ## [0.2.2] - 2026-10-22
 
 ### Changed

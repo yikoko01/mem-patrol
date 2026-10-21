@@ -243,7 +243,9 @@ class SQLiteStore:
             (int(after_id), bounded),
         ).fetchall()
 
-    def recent_private_messages(self, user_id: str, limit: int = 4) -> list[sqlite3.Row]:
+    def recent_private_messages(
+        self, user_id: str, limit: int = 4, before_ts: int | None = None
+    ) -> list[sqlite3.Row]:
         """Newest-first private inbound messages for one user.
 
         Production rule from the schema handoff: in ``raw_messages`` a private
@@ -257,6 +259,9 @@ class SQLiteStore:
             return []
         conditions = ['"%s" = ?' % spec.sender_id]
         params: list[object] = [str(user_id)]
+        if before_ts is not None and spec.timestamp:
+            conditions.append('"%s" <= ?' % spec.timestamp)
+            params.append(int(before_ts))
         if spec.group_id and self.schema.private_chat_by_group_equals_sender:
             conditions.append(
                 '("%s" = "%s" or "%s" is null or "%s" = \'\')'

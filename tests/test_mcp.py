@@ -23,7 +23,7 @@ def request(method, params=None, request_id=1):
 
 
 def test_version():
-    assert __version__ == "0.2.2"
+    assert __version__ == "0.2.3"
 
 
 def test_initialize_latest_and_legacy():

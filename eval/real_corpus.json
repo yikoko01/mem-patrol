@@ -1,0 +1,44 @@
+{
+  "name": "real-corpus-recall",
+  "privacy": "No production text is stored; content is represented by SHA-256 only.",
+  "snapshot": {
+    "sha256": "290dd97c0e362d4dddc98d07d9ee6b15ce18ce33fec79ba50200cc3f1753ff66",
+    "bytes": 55164928
+  },
+  "schema": "examples/self-learning.schema.json",
+  "user_id_required": true,
+  "queries": [
+    {
+      "id": "case1-start",
+      "query": "我们最开始因为什么开启这个项目，最开始的困难是什么",
+      "as_of_ts": 1792510350,
+      "top_n": 3,
+      "expected": [
+        {
+          "id": 19,
+          "content_sha256": "57453ef75eb5f093babffba2680857a255a4e264ad647288b86e4c49d25ace58"
+        },
+        {
+          "id": 25,
+          "content_sha256": "508f7767436a1ffec8985849780a829f0e79846303e631744aa6a5fca803d80f"
+        }
+      ]
+    },
+    {
+      "id": "case2-hardest",
+      "query": "这个项目最困难的阶段是什么",
+      "as_of_ts": 1792511381,
+      "top_n": 3,
+      "expected": [
+        {
+          "id": 19,
+          "content_sha256": "57453ef75eb5f093babffba2680857a255a4e264ad647288b86e4c49d25ace58"
+        },
+        {
+          "id": 1248,
+          "content_sha256": "b7d685ce46a3d7d1090cc4694c252dec7ad6fd6eb3ded69f20f0dd33359b7601"
+        }
+      ]
+    }
+  ]
+}

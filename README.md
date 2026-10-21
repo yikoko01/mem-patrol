@@ -21,7 +21,7 @@ and the gatekeep decision kernel (M2) build on the M0 pure policies.
 ```bash
 python -m pip install .                 # installs distribution mem-patrol
 python -m pip install '.[test]'         # pytest + jieba for the full suite
-memorix --version                       # mem-patrol 0.2.2 (import/CLI name stays memorix)
+memorix --version                       # mem-patrol 0.2.3 (import/CLI name stays memorix)
 mem-patrol --version                    # distribution alias, same CLI
 ```
 
@@ -75,7 +75,7 @@ python -m pytest -p no:cacheprovider   # any Python >= 3.10 with pytest
 ```
 
 `pyproject.toml` sets `pythonpath = ["src"]`, so the package is importable
-without `pip install`. The full **363-test** run needs the optional `jieba` anchor extra
+without `pip install`. The full **368-test** run needs the optional `jieba` anchor extra
 (`pip install '.[test]'`); without it the anchor-dependent tests are skipped
 (`memorix.eval --suite all` still passes 24/24).
 
@@ -95,7 +95,7 @@ src/memorix/profiles.py        chat / project / both presets (M4.1)
 src/memorix/schema.py          foreign-DB schema mapping / auto-detect (M4.2)
 eval/baseline.json             evaluation baseline (M3)
 dist/                          built wheel/sdist (M4)
-tests/                         pytest-native tests (363)
+tests/                         pytest-native tests (368)
 docs/                          M0–M4 reports + USE-CASES/MCP/README samples
 LICENSE, CHANGELOG.md          MIT + release notes
 ```
@@ -153,6 +153,8 @@ PYTHONPATH=src python -m memorix.observability --input events.jsonl --out report
 from memorix.safety import wrap_untrusted
 wrapped = wrap_untrusted(untrusted_text, source="group:g1")
 ```
+
+Real-corpus regression (no stored text): `python -m memorix.eval.real_corpus --db <snapshot> --user-id <id> --manifest eval/real_corpus.json`. See `docs/REAL-CORPUS.md`.
 
 See `docs/M3.md`. The milestones (M0–M4) stay dependency-free (no network, no
 host imports); IO lives behind adapters/CLI. M4 adds the MCP server and

@@ -7,6 +7,7 @@ Current, host-neutral entry points:
 - [`MCP.md`](MCP.md) — MCP server and tools
 - [`INTERJECTION.md`](INTERJECTION.md) — judge-first, lightly-throttled interjection
 - [`RELEASE.md`](RELEASE.md) — release gates and publishing
+- [`PYPI.md`](PYPI.md) — PyPI trusted publishing / token upload
 - [`NAMING.md`](NAMING.md) — bilingual naming/description copy
 - [`FAQ.md`](FAQ.md) — host compatibility and license
 - [`DECISIONS.md`](DECISIONS.md) — design decisions
