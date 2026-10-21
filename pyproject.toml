@@ -28,7 +28,7 @@ mem-patrol-mcp = "memorix.mcp.server:main"
 
 [project.optional-dependencies]
 anchor = ["jieba>=0.42"]
-test = ["pytest>=8", "jieba>=0.42"]
+test = ["pytest>=8", "jieba>=0.42", "tomli>=2; python_version < '3.11'"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
