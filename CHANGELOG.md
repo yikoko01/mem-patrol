@@ -3,6 +3,12 @@
 All notable changes to this project. The kernels are extracted read-only from the
 production AstrBot patrol/private-companion systems; production code is untouched.
 
+## [0.2.1] - 2026-10-22
+
+### Fixed
+- Python 3.10 CI: `tests/test_packaging.py` falls back to `tomli`
+  (`tomllib` is 3.11+); test extra installs `tomli` on <3.11.
+
 ## [0.2.0] - 2026-10-21
 
 First installable release (M0–M4).

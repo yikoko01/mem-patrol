@@ -1,4 +1,4 @@
-# Release（0.2.0，release-ready）
+# Release（0.2.1，release-ready）
 
 ## 1. 当前发布门（诚实口径）
 
@@ -24,12 +24,12 @@
 ```bash
 cd /sdcard/dsh-work/memorix
 python -m build
-# dist/mem_patrol-0.2.0-py3-none-any.whl
-# dist/mem_patrol-0.2.0.tar.gz
+# dist/mem_patrol-0.2.1-py3-none-any.whl
+# dist/mem_patrol-0.2.1.tar.gz
 
-python -m pip install --no-deps --prefix /tmp/memorix-prefix dist/mem_patrol-0.2.0-py3-none-any.whl
+python -m pip install --no-deps --prefix /tmp/memorix-prefix dist/mem_patrol-0.2.1-py3-none-any.whl
 PYTHONPATH=/tmp/memorix-prefix/lib/python3.12/site-packages /tmp/memorix-prefix/bin/memorix --version
-# memorix 0.2.0
+# mem-patrol 0.2.1
 ```
 
 ## 3. 发布到 GitHub（需要 remote；/sdcard 上无法 git init）
@@ -37,14 +37,16 @@ PYTHONPATH=/tmp/memorix-prefix/lib/python3.12/site-packages /tmp/memorix-prefix/
 ```bash
 cd /sdcard/dsh-work/memorix
 git init -b main          # 在普通文件系统/本地 clone 上执行（/sdcard 的 FUSE 不支持写 git 对象）
-git add -A && git commit -m "memorix 0.2.0"
-git tag -a v0.2.0 -m "memorix 0.2.0"
+git add -A && git commit -m "mem-patrol 0.2.1"
+git tag -a v0.2.1 -m "mem-patrol 0.2.1"
 git remote add origin <your-repo-url>
 git push origin main --tags
 ```
 
 > 本仓库位于 `/sdcard`（FUSE），`git init/add` 会报 `failed to insert into database`；
 > 发布前先 `cp -a memorix ~/memorix && cd ~/memorix` 到普通磁盘，或直接在 GitHub 建仓后 clone。
+
+> v0.2.1 修复了 Python 3.10 CI 的 `tomllib` 测试导入；v0.2.0 的 GitHub Release 已存在。
 
 push `v*` tag 后 `.github/workflows/release.yml` 会：测试 → 构建 wheel/sdist → 安装 smoke → GitHub Release 挂 artifacts。
 

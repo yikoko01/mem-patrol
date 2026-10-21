@@ -22,7 +22,7 @@ and the gatekeep decision kernel (M2) build on the M0 pure policies.
 cd /sdcard/dsh-work/memorix
 python -m pip install .                 # installs distribution mem-patrol
 python -m pip install '.[test]'         # pytest + jieba for the full suite
-memorix --version                       # mem-patrol 0.2.0 (import/CLI name stays memorix)
+memorix --version                       # mem-patrol 0.2.1 (import/CLI name stays memorix)
 mem-patrol --version                    # distribution alias, same CLI
 ```
 
