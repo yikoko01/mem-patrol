@@ -1,23 +1,23 @@
 # 通用数据库：自定义表 / 缺表也能用（schema 映射）
 
-你的表是「插件自带 + 另设」的没关系。memorix 不要求表名/列名固定；默认用 AstrBot 原生三表，
+你的表是「插件自带 + 另设」的没关系。memorix 不要求表名/列名固定；默认用三表布局，
 其他项目用 **显式映射** 或 **自动探测**，缺消息表时只降级对应功能，不崩。
 
 ## 1. 三档用法
 
 | 档 | 用法 | 适用 |
 |---|---|---|
-| 原生 | 不传（默认） | AstrBot `memories/raw_messages/bot_messages` |
+| 原生 | 不传（默认） | `memories/raw_messages/bot_messages` |
 | 显式映射 | `--schema schema.json`（或 inline JSON / `Schema` 对象） | 你的插件表、别的项目表 |
 | 自动探测 | `--schema auto` | 表名/列名接近常见命名时；SQLAlchemy 变体/业务列名建议显式映射 |
 
 CLI：所有 `--db` 命令都支持 `--schema`；也可用环境变量 `MEMORIX_SCHEMA`。
 MCP：`memorix_diagnose` / `memorix_orphan` / `memorix_recall` 接受 `schema` 参数（路径/auto/inline JSON）。
 
-## 1.5 AstrBot self-learning 交接实测（2026-10-21）
+## 1.5 真实记忆库交接实测（2026-10-21）
 
-生产库：`/root/AstrBot/data/plugin_data/astrbot_plugin_self_learning/messages.db`（DJango? 不，SQLAlchemy 生成，40+ 表）。
-用只读快照实测（schema = `examples/astrbot-self-learning.schema.json`）：
+生产库：某 SQLAlchemy 生成的 self-learning 库（40+ 表，只读快照）。
+用只读快照实测（schema = `examples/self-learning.schema.json`）：
 
 - memories **1254**（其中 archived **16**，召回排除后 **1238**）；
 - raw_messages **4079**、bot_messages **6173**；

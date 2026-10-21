@@ -9,18 +9,9 @@ config-audit snapshot diff, decay/consolidation planning, intent expiry, finish
 gate, lexical recall scorer, composable decision gates, metrics, offline eval,
 untrusted wrapper and an MCP stdio server.
 
-M0–M4 are **host-agnostic kernels**: no IM framework or AstrBot import, no network. File IO lives
+M0–M4 are **host-agnostic kernels**: no IM framework or host import, no network. File IO lives
 behind `memorix.adapters.files`; the CLI/store (M1), the recall scorer (M1.5)
 and the gatekeep decision kernel (M2) build on the M0 pure policies.
-
-## Is this AstrBot-specific?
-
-**No.** The package has no AstrBot import or dependency. Its *default* SQLite schema is a
-three-table layout that originated in AstrBot, and one example schema documents an AstrBot
-handoff, but any SQLite schema can be mapped with `--schema`. The MCP server, CLI and kernels
-are host-agnostic; AstrBot is one possible producer/consumer, not a requirement.
-
-See [docs/FAQ.md](docs/FAQ.md) for the host-compatibility and license questions.
 
 ## Install
 
@@ -48,10 +39,9 @@ MEMORIX_SCHEMA=schema.json memorix diagnose --db my.db
 
 Only a memories table is required; message-dependent features (`status`/`finish`) return a
 clear `SchemaError` when `raw_messages`/`bot_messages` are not mapped. MCP tools accept a
-`schema` argument. A real handoff example is included at
-[examples/astrbot-self-learning.schema.json](examples/astrbot-self-learning.schema.json)
-(ms/s units, `archived` exclusion, private-chat rule; verified on a read-only 1254-memory snapshot).
-AstrBot is only the origin of this example, not a dependency.
+`schema` argument. A real-world schema example is included at
+[examples/self-learning.schema.json](examples/self-learning.schema.json)
+(ms/s units, `archived` exclusion, private-chat rule).
 See [docs/SCHEMA.md](docs/SCHEMA.md).
 
 ## Use-case profiles (chat / project / both)

@@ -7,7 +7,7 @@ Two modes:
 Usage:
   PYTHONPATH=src python scripts/prod_replay.py \
     --db /tmp/memorix-prod/messages-snapshot-*.db \
-    --schema examples/astrbot-self-learning.schema.json \
+    --schema examples/self-learning.schema.json \
     --user-id 404BE32F7C9E448DB63AC9E0658A10EB --out verify/prod-replay.md
 """
 from __future__ import annotations
@@ -150,7 +150,7 @@ def run(db: str, schema: str, user_id: str, mode: str) -> list[dict]:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--db", required=True)
-    parser.add_argument("--schema", default="examples/astrbot-self-learning.schema.json")
+    parser.add_argument("--schema", default="examples/self-learning.schema.json")
     parser.add_argument("--user-id", default=SYSTEM_USER)
     parser.add_argument("--out", help="markdown report path")
     parser.add_argument("--json", help="json output path")

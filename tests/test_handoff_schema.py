@@ -11,7 +11,7 @@ from memorix.schema import load_schema
 from memorix.store import SQLiteStore
 
 ROOT = Path(__file__).resolve().parents[1]
-EXAMPLE = ROOT / "examples" / "astrbot-self-learning.schema.json"
+EXAMPLE = ROOT / "examples" / "self-learning.schema.json"
 
 
 def _db(tmp_path):
