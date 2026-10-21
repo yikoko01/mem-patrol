@@ -1,5 +1,7 @@
 # MemPatrol · 记忆巡检、召回与接话闸门
 
+[![PyPI](https://img.shields.io/pypi/v/mem-patrol.svg)](https://pypi.org/project/mem-patrol/)
+
 > Memory patrol, lexical recall and conversation gates for long-lived agents.
 > 给长期运行 agent 的记忆巡检、召回打分与群聊接话闸门。
 
@@ -19,7 +21,8 @@ and the gatekeep decision kernel (M2) build on the M0 pure policies.
 > 发行包名是 **`mem-patrol`**，导入包/原 CLI 仍叫 **`memorix`**。
 
 ```bash
-python -m pip install .                 # installs distribution mem-patrol
+pip install mem-patrol                  # from PyPI (0.2.3+)
+python -m pip install .                 # or from this checkout
 python -m pip install '.[test]'         # pytest + jieba for the full suite
 memorix --version                       # mem-patrol 0.2.3 (import/CLI name stays memorix)
 mem-patrol --version                    # distribution alias, same CLI
