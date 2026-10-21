@@ -24,6 +24,6 @@ current, host-neutral entry points.
 
 ## License
 
-**MIT** for 0.2.2 and later. Earlier releases (0.2.0/0.2.1) were Apache-2.0. MIT is shorter and
+**MIT** for 0.2.2 and later (v0.2.2 is the current GitHub Release). Earlier releases (0.2.0/0.2.1) were Apache-2.0. MIT is shorter and
 more permissive; it has no explicit patent grant, so if patent protection matters to you,
 Apache-2.0 may be preferable for future contributions. This is not legal advice.
