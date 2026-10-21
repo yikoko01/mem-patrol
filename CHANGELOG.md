@@ -30,6 +30,10 @@ First installable release (M0–M4).
 - **Packaging (M4)**: Apache-2.0 LICENSE, wheels/sdist, console scripts,
   GitHub Actions CI + tag release workflow.
 
+### Fixed
+- Python 3.10 CI: `tests/test_packaging.py` now falls back to `tomli`
+  (`tomllib` is 3.11+); test extra installs `tomli` on <3.11.
+
 ### Changed (M4.5)
 - Distribution/repo name is now **`mem-patrol`** (import package and existing CLI remain
   `memorix`; aliases `mem-patrol`/`mem-patrol-mcp` added). Avoids the taken
