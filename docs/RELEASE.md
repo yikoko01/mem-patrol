@@ -18,7 +18,7 @@
 > 当前全量回放 **6/6**；历史点时间回放仍是 **5/6 + DATA_GAP**（历史语料不能靠事后补记忆改写）。
 
 **GitHub**：<https://github.com/yikoko01/mem-patrol/releases/tag/v0.2.2>  
-**CI**：3.10/3.11/3.12 全绿（`7c04105e`）。
+**CI**：3.10/3.11/3.12 全绿（`d3b724c`）。
 
 **生产写入备份**：`/sdcard/dsh-work/backups/live-messages-before-version-memory-20261022-0002.db`（integrity_check ok）。
 回滚（停 bot 后）：`delete from memories where id=1256;` 或整体恢复该 backup。
@@ -26,10 +26,10 @@
 ## 1.5 已发布的 GitHub Release
 
 - repo: <https://github.com/yikoko01/mem-patrol>
-- tag: `v0.2.2`（commit `7c04105e`）
+- tag: `v0.2.2`（commit `d3b724c`）
 - assets: `mem_patrol-0.2.2-py3-none-any.whl`、`mem_patrol-0.2.2.tar.gz`
 - repo description / topics 已设置
-- v0.2.0 是历史 release；其 3.10 CI 因测试 `tomllib` 曾红，v0.2.2 已修复
+- v0.2.0/v0.2.1 是历史 release（Apache-2.0；v0.2.0 的 3.10 CI 曾红）；v0.2.2 起 MIT，CI 全绿
 
 ## 2. 本地产物（已验证）
 
