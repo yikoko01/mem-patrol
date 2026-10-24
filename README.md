@@ -171,12 +171,13 @@ tables are not mapped. A privacy-preserving real-corpus replay is in
 
 ## Docs
 
+- [Contributing](CONTRIBUTING.md) · [Roadmap](ROADMAP.md)
 - [Use cases](docs/USE-CASES.md) · [Architecture](docs/ARCHITECTURE.md) ·
   [End-to-end](docs/END-TO-END.md) · [Schema](docs/SCHEMA.md) ·
   [MCP](docs/MCP.md) · [Interjection](docs/INTERJECTION.md) ·
   [Real corpus](docs/REAL-CORPUS.md) · [Comparison](docs/COMPARISON.md) ·
-  [Benchmarks](docs/BENCHMARKS.md) · [Release](docs/RELEASE.md) · [FAQ](docs/FAQ.md)
+  [Benchmarks](docs/BENCHMARKS.md) · [Vector design](docs/VECTOR-PROVIDER.md) · [Release](docs/RELEASE.md) · [FAQ](docs/FAQ.md)
 
 ## License
 
-MIT. See [`LICENSE`](LICENSE). Earlier releases (0.2.0/0.2.1) were Apache-2.0.
+MIT. See [`LICENSE`](LICENSE). MIT was chosen for minimal adoption friction; it has no explicit patent grant (Apache-2.0, used by 0.2.0/0.2.1, does). See [`FAQ.md`](docs/FAQ.md).

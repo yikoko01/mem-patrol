@@ -1,0 +1,31 @@
+name: Bug report
+description: Something is broken or behaves unexpectedly.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Please remove production memory text/user ids/tokens before posting."
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: "`mem-patrol --version` output"
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Command/API, expected vs actual, traceback if any.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: Synthetic data is fine; do not include production memory text.
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      description: OS / Python / SQLite / jieba availability

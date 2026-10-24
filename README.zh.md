@@ -168,12 +168,13 @@ MEMORIX_SCHEMA=schema.json memorix diagnose --db my.db
 
 ## 文档
 
+- [贡献指南](CONTRIBUTING.md) · [路线图](ROADMAP.md)
 - [用例](docs/USE-CASES.md) · [架构](docs/ARCHITECTURE.md) ·
   [端到端](docs/END-TO-END.md) · [Schema](docs/SCHEMA.md) ·
   [MCP](docs/MCP.md) · [接话策略](docs/INTERJECTION.md) ·
   [真实库回归](docs/REAL-CORPUS.md) · [对比](docs/COMPARISON.md) ·
-  [基准](docs/BENCHMARKS.md) · [发布](docs/RELEASE.md) · [FAQ](docs/FAQ.md)
+  [基准](docs/BENCHMARKS.md) · [向量设计](docs/VECTOR-PROVIDER.md) · [发布](docs/RELEASE.md) · [FAQ](docs/FAQ.md)
 
 ## License
 
-MIT，见 [`LICENSE`](LICENSE)。0.2.0/0.2.1 历史版本为 Apache-2.0。
+MIT，见 [`LICENSE`](LICENSE)。选 MIT 是为了最低的采用门槛；它没有显式专利授权（0.2.0/0.2.1 的 Apache-2.0 有）。详见 [`FAQ.md`](docs/FAQ.md)。

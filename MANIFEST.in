@@ -8,3 +8,5 @@ include .github/workflows/*.yml
 recursive-include examples *.json *.md
 recursive-include scripts *.py
 include README.zh.md
+include CONTRIBUTING.md
+include ROADMAP.md

@@ -59,3 +59,25 @@ gap, not a scorer failure. See `verify/prod-replay-20261021.md`.
 - No large-scale accuracy benchmark or leaderboard claim.
 - Lexical recall only; no embedding/vector quality comparison yet.
 - Numbers depend on Python/jieba/CPU and will differ on other machines.
+
+## Scaling: 10K / 50K synthetic memories
+
+`scripts/bench_scale.py` builds a synthetic native-schema DB, then measures
+read/plan/diagnose/recall. Warm recall excludes the first jieba/anchor call; each
+number is this device, single run (not a statistically rigorous benchmark).
+
+| operation | 10K rows | 50K rows |
+|---|---:|---:|
+| `iter_memories` (read) | ~49 ms | ~200 ms |
+| `plan_decay` | ~22 ms | ~109 ms |
+| `build_diagnosis` (no state/audit) | ~39 ms | ~204 ms |
+| `load_rows` (tokenize) | ~118 ms | ~912 ms |
+| warm `recall` (top 5) | ~63 ms | ~325 ms |
+
+```bash
+python scripts/bench_scale.py --rows 10000 --json
+python scripts/bench_scale.py --rows 50000 --json
+```
+
+Diagnosis/decay are linear and fast; the tokenization/load step dominates scaling.
+For 50K+ rows, cache tokenized rows or add the planned vector/ANN path.

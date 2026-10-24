@@ -7,6 +7,9 @@ Current, host-neutral entry points:
 - [`END-TO-END.md`](END-TO-END.md) — chat interjection and repair walkthroughs
 - [`BENCHMARKS.md`](BENCHMARKS.md) — measured latency/size and quality gates
 - [`COMPARISON.md`](COMPARISON.md) — positioning vs memory frameworks
+- [`VECTOR-PROVIDER.md`](VECTOR-PROVIDER.md) — planned vector seam / pitfalls
+
+Project-level files: [`../CONTRIBUTING.md`](../CONTRIBUTING.md) · [`../ROADMAP.md`](../ROADMAP.md)
 - [`SCHEMA.md`](SCHEMA.md) — any SQLite schema; one real-world example included
 - [`MCP.md`](MCP.md) — MCP server and tools
 - [`INTERJECTION.md`](INTERJECTION.md) — judge-first, lightly-throttled interjection
