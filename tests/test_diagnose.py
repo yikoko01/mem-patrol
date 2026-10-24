@@ -43,9 +43,10 @@ def test_text_importance_is_high():
     assert diagnosis.has_high()
 
 
-def test_seconds_created_at_is_medium():
+def test_seconds_created_at_is_high():
     diagnosis = build_diagnosis([mem(1, created_at=NOW)], now=NOW)  # seconds, not ms
-    assert "created-at-encoding" in codes(diagnosis)
+    finding = next(item for item in diagnosis.findings if item.code == "created-at-encoding")
+    assert finding.severity == "HIGH"
 
 
 def test_measure_data_quality_matches_typeof_semantics():
@@ -116,7 +117,7 @@ def test_audit_untrusted_and_benign():
 
 
 def test_no_state_is_info_only():
-    diagnosis = build_diagnosis([mem(1)], now=NOW)
+    diagnosis = build_diagnosis([mem(1, created_at=NOW * 1000)], now=NOW)
     assert "no-state" in codes(diagnosis)
     assert not diagnosis.has_high()
 
@@ -142,3 +143,10 @@ def test_format_and_to_dict():
     assert data["total"] == 1
     assert data["distribution"] == {"auto_patrol": 1}
     assert data["findings"]
+
+
+def test_created_at_encoding_high_invariant():
+    # A bad created_at invalidates sorting/decay conclusions, so it is HIGH.
+    diagnosis = build_diagnosis([mem(1, created_at=NOW)], now=NOW)
+    findings = {finding.code: finding for finding in diagnosis.findings}
+    assert findings["created-at-encoding"].severity == "HIGH"

@@ -72,7 +72,7 @@ flowchart LR
 ```bash
 pip install mem-patrol                 # PyPI
 # 或：python -m pip install .
-memorix --version                      # mem-patrol 0.3.3
+memorix --version                      # mem-patrol 0.3.4
 ```
 
 发行名是 `mem-patrol`；导入包和原 CLI 仍是 `memorix`，另有 `mem-patrol` /
@@ -143,6 +143,16 @@ block = provider.recall(user_message, rows=rows, context=context, user_id=user_i
 ONNX 适配器在 `memorix.retrieval.vector_onnx`（`pip install 'mem-patrol[vector]'`）。
 在真实库上不输给 lexical 之前，默认不变。
 
+## 词法边界（同义词要诚实）
+
+lexical 召回不认识同义词。用内置示例，下面两问都会返回 `(empty)`：
+
+- 记忆“喜欢喝冰美式” → 查询“咖啡”
+- 记忆“想学吉他” → 查询“音乐”
+
+这是预期行为，不是 bug；默认就是 lexical。vector 是可选 provider seam
+（`make_provider("vector", embedder=...)`），不内置模型。见 [`docs/VECTOR-PROVIDER.md`](docs/VECTOR-PROVIDER.md)。
+
 ## MCP
 
 ```json
@@ -186,7 +196,7 @@ MEMORIX_SCHEMA=schema.json memorix diagnose --db my.db
 
 ## 质量与基准
 
-- **375 tests**；CI 覆盖 Python 3.10 / 3.11 / 3.12。
+- **379 tests**；CI 覆盖 Python 3.10 / 3.11 / 3.12。
 - §10.3 合成回放 **6/6**；真实库回放 **current 6/6**、**historical 5/6**
   （一个数据缺口，不是算法 fail）。
 - 1,238 条记忆的只读快照：冷加载 ~**0.18 s**，热召回中位 ~**43 ms**，

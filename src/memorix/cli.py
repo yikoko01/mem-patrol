@@ -16,9 +16,11 @@ from __future__ import annotations
 
 import argparse
 import datetime
+import importlib.metadata
 import json
 import sys
 import time
+import warnings
 from pathlib import Path
 from typing import Any
 
@@ -87,6 +89,10 @@ def _build_parser() -> argparse.ArgumentParser:
     _common(p)
     p.add_argument("--strict", action="store_true", help="exit 1 when a HIGH finding exists")
     p.set_defaults(func=cmd_diagnose)
+
+    p = sub.add_parser("doctor", help="self-check package files, entry points, jieba and a DB")
+    _common(p)
+    p.set_defaults(func=cmd_doctor)
 
     p = sub.add_parser("recall", help="prompt-ready lexical recall")
     _common(p)
@@ -432,6 +438,78 @@ def cmd_audit(args: argparse.Namespace) -> int:
         save_snapshot(paths.audit_snapshot, result.snapshot)
         print("AUDIT_SNAPSHOT_SAVED=%s" % paths.audit_snapshot)
     return 1 if args.strict and result.suspicious else 0
+
+
+def cmd_doctor(args: argparse.Namespace) -> int:
+    import memorix
+
+    problems: list[str] = []
+    notes: list[str] = []
+    module_file = Path(getattr(memorix, "__file__", "") or "")
+    package_dir = module_file.parent
+    symlink = bool(module_file) and package_dir.is_symlink()
+    if not module_file or not package_dir.exists():
+        problems.append("package file is missing (broken install?)")
+    if symlink:
+        notes.append(
+            "package directory is a symlink (uv link-mode?); on no-hardlink filesystems use "
+            "UV_LINK_MODE=copy or uv pip install --link-mode=copy"
+        )
+    for name in ("memorix.cli", "memorix.mcp.server"):
+        try:
+            module = __import__(name, fromlist=["__file__"])
+            path = Path(getattr(module, "__file__", "") or "")
+            if not path.exists():
+                problems.append("%s file is missing: %s" % (name, path))
+        except Exception as exc:  # noqa: BLE001
+            problems.append("%s import failed: %s" % (name, exc))
+    entrypoints: list[str] = []
+    try:
+        dist = importlib.metadata.distribution("mem-patrol")
+        entrypoints = sorted(ep.name for ep in dist.entry_points if ep.group == "console_scripts")
+    except importlib.metadata.PackageNotFoundError:
+        notes.append("distribution mem-patrol is not installed (source checkout?)")
+    jieba_info = "missing"
+    try:
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", SyntaxWarning)
+            import jieba
+        jieba_info = str(getattr(jieba, "__version__", "present"))
+    except Exception as exc:  # noqa: BLE001
+        notes.append("jieba optional dependency unavailable: %s" % exc)
+    db_info = None
+    if args.db:
+        paths = _paths(args)
+        with SQLiteStore(paths.db, readonly=True, schema=paths.schema) as store:
+            store.require_schema()
+            db_info = {"db": str(paths.db), "memories": len(store.iter_memories()), "schema": store.schema.name}
+    result = {
+        "ok": not problems,
+        "version": __version__,
+        "python": sys.version.split()[0],
+        "package_file": str(module_file),
+        "package_dir_symlink": symlink,
+        "entrypoints": entrypoints,
+        "jieba": jieba_info,
+        "db": db_info,
+        "notes": notes,
+        "problems": problems,
+    }
+    if args.json:
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+    else:
+        print("DOCTOR_%s" % ("OK" if not problems else "FAIL"))
+        print("version:", __version__, "python:", result["python"])
+        print("package:", module_file, "symlink:", symlink)
+        print("entrypoints:", ",".join(entrypoints) or "(not installed)")
+        print("jieba:", jieba_info)
+        if db_info:
+            print("db:", db_info["db"], "memories:", db_info["memories"], "schema:", db_info["schema"])
+        for note in notes:
+            print("NOTE:", note)
+        for problem in problems:
+            print("PROBLEM:", problem)
+    return 1 if problems else 0
 
 
 def cmd_recall(args: argparse.Namespace) -> int:

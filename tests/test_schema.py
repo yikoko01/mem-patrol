@@ -222,3 +222,16 @@ def test_mcp_orphan_accepts_schema(tmp_path):
     )
     assert response["result"]["isError"] is False
     assert "ORPHAN" in response["result"]["content"][0]["text"]
+
+
+def test_auto_failure_suggests_closest_table_and_columns(tmp_path):
+    db = tmp_path / "weird.db"
+    conn = sqlite3.connect(db)
+    conn.execute("create table weird_rows (pk integer primary key, body text, weight int)")
+    conn.execute("insert into weird_rows values (1,'hello',5)")
+    conn.commit()
+    conn.close()
+    with pytest.raises(SchemaError) as exc:
+        SQLiteStore(db, schema="auto")
+    message = str(exc.value)
+    assert "weird_rows" in message and "body" in message

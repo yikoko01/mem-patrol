@@ -310,22 +310,58 @@ def _find_table(conn: sqlite3.Connection, candidates: tuple[str, ...]) -> str | 
     return None
 
 
+def _mapping_hint(table: str, columns: set[str], mapping: Mapping[str, tuple[str, ...]]) -> str | None:
+    found = {}
+    for field_name, aliases in mapping.items():
+        picked = _pick(columns, aliases)
+        if picked:
+            found[field_name] = picked
+    if "id" not in found:
+        return None
+    content_key = found.get("content") or found.get("message")
+    if not content_key:
+        return None
+    parts = ['"table": "%s"' % table, '"id": "%s"' % found["id"], '"content": "%s"' % content_key]
+    for extra in ("type", "importance", "created_at", "group_id", "user_id"):
+        if extra in found:
+            parts.append('"%s": "%s"' % (extra, found[extra]))
+    return '{"memories": {%s}}' % ", ".join(parts)
+
+
+def _candidate_hints(conn: sqlite3.Connection) -> list[str]:
+    hints = []
+    tables = [str(row[0]) for row in conn.execute("select name from sqlite_master where type='table'")]
+    for table in sorted(tables):
+        columns = _table_columns(conn, table)
+        hint = _mapping_hint(table, columns, _MEMORY_COLUMNS)
+        if hint:
+            hints.append("table %r: %s" % (table, hint))
+    return hints
+
+
 def _spec_for(conn: sqlite3.Connection, table: str, mapping: Mapping[str, tuple[str, ...]]) -> ColumnSpec:
     columns = _table_columns(conn, table)
     kwargs: dict[str, str | None] = {"table": table}
     for field_name, aliases in mapping.items():
         kwargs[field_name] = _pick(columns, aliases)
     if not kwargs.get("id") or not (kwargs.get("content") or kwargs.get("message")):
-        raise SchemaError("table %r needs id + content/message-like columns (found %s)" % (table, sorted(columns)))
+        hint = _mapping_hint(table, columns, mapping)
+        raise SchemaError(
+            "table %r needs id + content/message-like columns (found %s). Try: %s"
+            % (table, sorted(columns), hint or "an explicit --schema JSON")
+        )
     return ColumnSpec(**kwargs)
 
 
 def autodetect_schema(conn: sqlite3.Connection) -> Schema:
     memory_table = _find_table(conn, _MEMORY_TABLE_CANDIDATES)
     if memory_table is None:
+        hints = _candidate_hints(conn)
+        detail = ("\n  - ".join([""] + hints)) if hints else ""
         raise SchemaError(
-            "no memories-like table found; pass an explicit --schema JSON "
-            "(tables: %s)" % sorted(str(row[0]) for row in conn.execute("select name from sqlite_master where type='table'"))
+            "no memories-like table found. Closest candidates:%s\n"
+            "Pass an explicit --schema JSON, e.g. %s"
+            % (detail, hints[0].split(": ", 1)[1] if hints else '{"memories":{"table":"...","id":"id","content":"text"}}')
         )
     memories = _spec_for(conn, memory_table, _MEMORY_COLUMNS)
     raw_table = _find_table(conn, _RAW_TABLE_CANDIDATES)

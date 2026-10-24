@@ -75,7 +75,7 @@ Full component map: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 ```bash
 pip install mem-patrol                 # from PyPI
 # or: python -m pip install .
-memorix --version                      # mem-patrol 0.3.3
+memorix --version                      # mem-patrol 0.3.4
 ```
 
 The distribution is `mem-patrol`; the import package and original CLI remain
@@ -146,6 +146,17 @@ block = provider.recall(user_message, rows=rows, context=context, user_id=user_i
 The ONNX adapter is in `memorix.retrieval.vector_onnx` (`pip install 'mem-patrol[vector]'`).
 Lexical remains the default until vector wins on the real corpus without regressions.
 
+## Lexical boundary (be honest about synonyms)
+
+Lexical recall does not know synonyms. With the built-in example, these return `(empty)`:
+
+- memory “喜欢喝冰美式” → query “咖啡”
+- memory “想学吉他” → query “音乐”
+
+That is expected, not a bug: the default is lexical. A vector provider is available as an
+optional seam (`make_provider("vector", embedder=...)`); no model is bundled. See
+[`docs/VECTOR-PROVIDER.md`](docs/VECTOR-PROVIDER.md).
+
 ## MCP
 
 ```json
@@ -189,7 +200,7 @@ tables are not mapped. A privacy-preserving real-corpus replay is in
 
 ## Quality and benchmarks
 
-- **375 tests**; CI on Python 3.10 / 3.11 / 3.12.
+- **379 tests**; CI on Python 3.10 / 3.11 / 3.12.
 - Synthetic §10.3 replay: **6/6**; real production replay: **6/6 current**,
   **5/6 historical** (one data gap documented, not an algorithm failure).
 - On a 1,238-memory read-only snapshot: cold load ~**0.18 s**, warm recall median

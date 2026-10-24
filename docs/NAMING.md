@@ -38,8 +38,8 @@ ZH: MemPatrol 从运行中的记忆巡检与群聊裁判抽离而来：审计 SQ
 
 ## Release title
 
-EN: v0.3.3 — Memory patrol, recall & conversation gates
-ZH: v0.3.3 — 记忆巡检、召回与接话闸门
+EN: v0.3.4 — Memory patrol, recall & conversation gates
+ZH: v0.3.4 — 记忆巡检、召回与接话闸门
 
 ## Topics
 

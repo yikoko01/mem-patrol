@@ -356,3 +356,19 @@ def test_recall_command(patrol_db, capsys):
     assert "语义记忆" in data["text"]
     code, out = run(capsys, "recall", "--db", patrol_db, "--query", "不存在的词xyz")
     assert code == 0 and out.strip() == "(empty)"
+
+
+def test_doctor(patrol_db, capsys):
+    code, out = run(capsys, "doctor", "--db", patrol_db, "--json")
+    assert code == 0
+    data = json.loads(out)
+    assert data["ok"] is True
+    from memorix import __version__
+    assert data["version"] == __version__
+    assert data["db"]["memories"] == 8
+    assert "memorix" in data["entrypoints"]
+
+
+def test_doctor_text(patrol_db, capsys):
+    code, out = run(capsys, "doctor", "--db", patrol_db)
+    assert code == 0 and "DOCTOR_OK" in out and "memories: 8" in out

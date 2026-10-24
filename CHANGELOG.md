@@ -3,6 +3,17 @@
 All notable changes to this project. The kernels are extracted read-only from the
 production AstrBot patrol/private-companion systems; production code is untouched.
 
+## [0.3.4] - 2026-10-24
+
+### Added
+- `memorix doctor`: package files/symlink, entry points, jieba, optional DB self-check.
+- Schema auto failures now suggest the closest table/columns + mapping JSON.
+
+### Fixed
+- Suppress jieba 0.42.1 `SyntaxWarning` in CLI output.
+- `created-at-encoding` is now HIGH (bad timestamps invalidate sorting/decay).
+- Docs: uv no-hardlink install (`UV_LINK_MODE=copy`), concrete lexical-boundary examples.
+
 ## [0.3.3] - 2026-10-24
 
 ### Changed

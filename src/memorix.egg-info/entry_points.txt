@@ -1,3 +1,0 @@
-[console_scripts]
-memorix = memorix.cli:main
-memorix-mcp = memorix.mcp.server:main

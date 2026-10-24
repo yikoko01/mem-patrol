@@ -11,6 +11,7 @@ Without jieba the anchor is empty and the scorer degrades to pure lexical
 from __future__ import annotations
 
 import re
+import warnings
 
 from .tokens import single_line, tokens
 
@@ -37,7 +38,9 @@ def jieba_module():
     if not _JIEBA_TRIED:
         _JIEBA_TRIED = True
         try:
-            import jieba
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", SyntaxWarning)
+                import jieba
 
             jieba.setLogLevel(60)
             _JIEBA = jieba
@@ -52,7 +55,9 @@ def words(text) -> list[str]:
     if module is None:
         return []
     try:
-        import jieba.posseg as pseg
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", SyntaxWarning)
+            import jieba.posseg as pseg
 
         cleaned = _AT_RESIDUE_RE.sub(" ", str(text or ""))
         out: list[str] = []

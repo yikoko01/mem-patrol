@@ -123,7 +123,7 @@ def build_diagnosis(
         )
     if quality["non_ms_created_at"]:
         add(
-            "MEDIUM",
+            "HIGH",
             "created-at-encoding",
             "created_at 混有秒/ISO/文本口径，排序与孤儿判定会偏",
             "rows=%d" % quality["non_ms_created_at"],
