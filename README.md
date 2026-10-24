@@ -163,6 +163,12 @@ tables are not mapped. A privacy-preserving real-corpus replay is in
   ~**43 ms**, injected block ~**620 chars**. Environment-specific; see
   [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md).
 
+## CI/CD
+
+- `.github/workflows/ci.yml` — pytest + both benches + eval on Python 3.10/3.11/3.12.
+- `.github/workflows/release.yml` — `v*` tag → test, build wheel/sdist, install smoke, GitHub Release assets.
+- `.github/workflows/publish.yml` — manual PyPI upload via trusted publishing (OIDC; no token in secrets).
+
 ## Docs
 
 - [Use cases](docs/USE-CASES.md) · [Architecture](docs/ARCHITECTURE.md) ·
