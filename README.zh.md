@@ -72,7 +72,7 @@ flowchart LR
 ```bash
 pip install mem-patrol                 # PyPI
 # 或：python -m pip install .
-memorix --version                      # mem-patrol 0.3.7
+memorix --version                      # mem-patrol 0.3.8
 ```
 
 发行名是 `mem-patrol`；导入包和原 CLI 仍是 `memorix`，另有 `mem-patrol` /
@@ -196,7 +196,7 @@ MEMORIX_SCHEMA=schema.json memorix diagnose --db my.db
 
 ## 质量与基准
 
-- **385 tests**；CI 覆盖 Python 3.10 / 3.11 / 3.12。
+- **387 tests**；CI 覆盖 Python 3.10 / 3.11 / 3.12。
 - §10.3 合成回放 **6/6**；真实库回放 **current 6/6**、**historical 5/6**
   （一个数据缺口，不是算法 fail）。
 - 1,238 条记忆的只读快照：冷加载 ~**0.18 s**，热召回中位 ~**43 ms**，
@@ -218,6 +218,19 @@ memorix doctor --strict   # CI：有残留直接失败
 ```
 
 只读 `ok` 的脚本可能放过“能用但环境脏”；在意环境时用 `clean` 或 `--strict`。
+
+## CLI 报错：默认对用户说话
+
+库不存在、schema 错、状态文件错统一为一行错误 + 提示，退出码 4；`diagnose` 和
+`recall` 行为一致：
+
+```text
+ERROR: 找不到数据库: /tmp/nope.db
+HINT: 检查 --db 路径；本次是只读操作，不会修改任何数据库。
+```
+
+开发时加 `--debug`（或 `MEMORIX_DEBUG=1`）显示原始异常类型和 traceback。路径错不该
+让用户读一屏 traceback。
 
 ## CI/CD
 

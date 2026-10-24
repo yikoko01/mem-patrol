@@ -75,7 +75,7 @@ Full component map: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 ```bash
 pip install mem-patrol                 # from PyPI
 # or: python -m pip install .
-memorix --version                      # mem-patrol 0.3.7
+memorix --version                      # mem-patrol 0.3.8
 ```
 
 The distribution is `mem-patrol`; the import package and original CLI remain
@@ -200,7 +200,7 @@ tables are not mapped. A privacy-preserving real-corpus replay is in
 
 ## Quality and benchmarks
 
-- **385 tests**; CI on Python 3.10 / 3.11 / 3.12.
+- **387 tests**; CI on Python 3.10 / 3.11 / 3.12.
 - Synthetic §10.3 replay: **6/6**; real production replay: **6/6 current**,
   **5/6 historical** (one data gap documented, not an algorithm failure).
 - On a 1,238-memory read-only snapshot: cold load ~**0.18 s**, warm recall median
@@ -224,6 +224,19 @@ memorix doctor --strict   # CI: fail on residue
 
 A script that only reads `ok` can run a usable but dirty environment; use `clean` or
 `--strict` when you care about the environment.
+
+## CLI errors: user-facing by default
+
+Missing DB, bad schema and state errors are printed as one line plus a hint, with exit
+code 4 — the same for `diagnose` and `recall`:
+
+```text
+ERROR: 找不到数据库: /tmp/nope.db
+HINT: 检查 --db 路径；本次是只读操作，不会修改任何数据库。
+```
+
+For development, add `--debug` (or `MEMORIX_DEBUG=1`) to get the original exception
+type and traceback. Do not make users read tracebacks for a wrong path.
 
 ## CI/CD
 

@@ -285,7 +285,7 @@ def test_consolidate_rejects_out_of_window_plan(patrol_db, tmp_path, capsys):
 
 def test_missing_db_is_config_error(patrol_db, capsys):
     code, out = run(capsys, "diagnose")
-    assert code == 4 and "ConfigError" in out
+    assert code == 4 and "配置错误" in out and "HINT:" in out
 
 
 def test_readonly_commands_do_not_modify_db(patrol_db, state_file, write_state, capsys):
@@ -423,3 +423,20 @@ def test_doctor_scripts_survive_stale_metadata(monkeypatch, capsys):
     assert code == 0
     assert data["entrypoints"] == []
     assert any("scripts exist" in warning for warning in data["warnings"])
+
+
+def test_missing_db_is_clean_for_diagnose_and_recall(tmp_path, capsys):
+    missing = str(tmp_path / "nope.db")
+    for argv in (("diagnose", "--db", missing), ("recall", "--db", missing, "--query", "x")):
+        code, out = run(capsys, *argv)
+        assert code == 4
+        assert "Traceback" not in out
+        assert "找不到数据库" in out and "HINT:" in out and missing in out
+
+
+def test_missing_db_debug_shows_traceback(tmp_path, capsys):
+    missing = str(tmp_path / "nope.db")
+    code = main(["recall", "--db", missing, "--query", "x", "--debug"])
+    captured = capsys.readouterr()
+    assert code == 4
+    assert "Traceback" in captured.err

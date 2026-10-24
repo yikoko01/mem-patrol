@@ -13,6 +13,7 @@ Current, host-neutral entry points:
 
 Project-level files: [`../CONTRIBUTING.md`](../CONTRIBUTING.md) · [`../ROADMAP.md`](../ROADMAP.md)
 - [`SCHEMA.md`](SCHEMA.md) — any SQLite schema; one real-world example included
+- [`INTEGRATION.md`](INTEGRATION.md) — foreign-schema integration matrix + read-only probe
 - [`MCP.md`](MCP.md) — MCP server and tools
 - [`INTERJECTION.md`](INTERJECTION.md) — judge-first, lightly-throttled interjection
 - [`RELEASE.md`](RELEASE.md) — release gates and publishing

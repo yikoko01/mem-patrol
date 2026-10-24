@@ -18,8 +18,10 @@ import argparse
 import datetime
 import importlib.metadata
 import json
+import os
 import re
 import sys
+import traceback
 import sysconfig
 import time
 import warnings
@@ -77,6 +79,7 @@ def _common(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--json", action="store_true", help="machine-readable output")
     parser.add_argument("--now", type=int, help="override the epoch clock (reproducible runs)")
     parser.add_argument("--schema", help="schema mapping: native/auto/JSON file/inline JSON (foreign DBs)")
+    parser.add_argument("--debug", action="store_true", help="show the full traceback (or MEMORIX_DEBUG=1)")
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -845,13 +848,34 @@ def cmd_consolidate(args: argparse.Namespace) -> int:
     return 0
 
 
+def _user_error(exc: Exception) -> tuple[str, str]:
+    """Return (message, hint) for the CLI, not a developer traceback."""
+    text = str(exc)
+    if isinstance(exc, FileNotFoundError) or "database not found" in text.lower():
+        return "找不到数据库: %s" % text.split(":", 1)[-1].strip(), "检查 --db 路径；本次是只读操作，不会修改任何数据库。"
+    if isinstance(exc, SchemaError):
+        return "库结构不匹配: %s" % text, "用 --schema auto/JSON 映射表名与列名；可运行 `memorix doctor`。"
+    if isinstance(exc, StateError):
+        return "状态文件错误: %s" % text, "检查 --state 路径或先初始化状态。"
+    if isinstance(exc, ConfigError):
+        return "配置错误: %s" % text, "检查 --config/--ledger 等路径。"
+    return "数据库/存储错误: %s" % text, "检查 --db 路径与文件权限；加 --debug 查看完整 traceback。"
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
     try:
         return int(args.func(args) or 0)
-    except (ConfigError, StoreError, StateError, SchemaError) as exc:
-        print("ERROR %s: %s" % (type(exc).__name__, exc))
+    except (ConfigError, StoreError, StateError, SchemaError, FileNotFoundError) as exc:
+        debug = bool(getattr(args, "debug", False)) or os.environ.get("MEMORIX_DEBUG") == "1"
+        if debug:
+            print("ERROR %s: %s" % (type(exc).__name__, exc))
+            traceback.print_exc()
+        else:
+            message, hint = _user_error(exc)
+            print("ERROR: %s" % message)
+            print("HINT: %s" % hint)
         return 4
 
 

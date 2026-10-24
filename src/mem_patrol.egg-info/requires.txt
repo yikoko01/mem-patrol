@@ -1,0 +1,14 @@
+
+[anchor]
+jieba>=0.42
+
+[test]
+pytest>=8
+jieba>=0.42
+
+[test:python_version < "3.11"]
+tomli>=2
+
+[vector]
+onnxruntime>=1.17
+numpy>=1.24

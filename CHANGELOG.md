@@ -3,6 +3,14 @@
 All notable changes to this project. The kernels are extracted read-only from the
 production AstrBot patrol/private-companion systems; production code is untouched.
 
+## [0.3.8] - 2026-10-24
+
+### Fixed
+- Unified CLI errors: `recall` and `diagnose` now print one user-facing
+  `ERROR` + `HINT` line (exit 4) instead of one leaking a traceback.
+- `integration_check.py` prints a short failure summary; use `--verbose` for full output.
+- Documented `--debug` / `MEMORIX_DEBUG=1` for developers.
+
 ## [0.3.7] - 2026-10-24
 
 ### Fixed

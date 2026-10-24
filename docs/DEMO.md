@@ -17,7 +17,7 @@ bash scripts/demo.sh                   # prints the same commands to stdout
 
 ## What it shows
 
-1. `memorix --version` — `mem-patrol 0.3.7`
+1. `memorix --version` — `mem-patrol 0.3.8`
 2. `memorix diagnose` — 12 synthetic memories, type distribution, findings
 3. `memorix.retrieval.bench` — §10.3 cases 6/6
 4. `memorix recall` — prompt-ready block for a synthetic memory
