@@ -11,7 +11,7 @@
 | **production §10.3 replay（historical point）** | **5 PASS / 1 DATA_GAP**（当时语料确实没有对比记忆，见 `verify/prod-replay-20261021.md`） |
 | 生产代码改动 | **0**；仅新增一条记忆 #1256（已备份，见下） |
 | 许可证 | **MIT**（0.2.2 起；0.2.0/0.2.1 为 Apache-2.0） |
-| 发布动作 | **GitHub Release `v0.3.3` 已发布**；**PyPI `mem-patrol 0.3.3` 已上传**（MIT）（MIT） |
+| 发布动作 | **GitHub Release `v0.3.3` 已发布**；**PyPI `mem-patrol 0.3.3` 已上传**（MIT） |
 
 > 2026-10-22 已按 B 方案补记忆 #1256（manual_remember, importance 9）：
 > `【石头门·8-23 与 8-19 难度对比】8-19 有明确根因（scoped storage/InjectActivity）；8-23 是盲改期（无 logcat、不可复现），所以更难。`
@@ -19,7 +19,7 @@
 
 **GitHub**：<https://github.com/yikoko01/mem-patrol/releases/tag/v0.3.3>  
 **PyPI**：<https://pypi.org/project/mem-patrol/0.3.3/>  
-**CI**：3.10/3.11/3.12 全绿（`ed724037`）。
+**CI**：3.10/3.11/3.12 全绿（`2984f309`）。
 
 **生产写入备份**：`/sdcard/dsh-work/backups/live-messages-before-version-memory-20261022-0002.db`（integrity_check ok）。
 回滚（停 bot 后）：`delete from memories where id=1256;` 或整体恢复该 backup。
@@ -27,7 +27,7 @@
 ## 1.5 已发布的 GitHub Release
 
 - repo: <https://github.com/yikoko01/mem-patrol>
-- tag: `v0.3.3`（commit `ed724037`）
+- tag: `v0.3.3`（commit `2984f309`）
 - assets: `mem_patrol-0.3.3-py3-none-any.whl`、`mem_patrol-0.3.3.tar.gz`
 - repo description / topics 已设置
 - v0.2.0/v0.2.1 是历史 release（Apache-2.0；v0.2.0 的 3.10 CI 曾红）；v0.2.2 起 MIT，CI 全绿
@@ -59,7 +59,7 @@ git push origin main --tags
 > 本仓库位于 `/sdcard`（FUSE），`git init/add` 会报 `failed to insert into database`；
 > 发布前先 `cp -a memorix ~/memorix && cd ~/memorix` 到普通磁盘，或直接在 GitHub 建仓后 clone。
 
-> v0.3.0 提供 provider 抽象/vector seam；v0.3.3 修复了 provider 测试里依赖随机 `hash()` 的问题，CI 三版本全绿。
+> v0.3.0 提供 provider 抽象/vector seam；0.3.1 修随机 hash 测试；0.3.3 更新 PyPI 元数据/社区/可视化，CI 三版本全绿。
 
 push `v*` tag 后 `.github/workflows/release.yml` 会：测试 → 构建 wheel/sdist → 安装 smoke → GitHub Release 挂 artifacts。
 
