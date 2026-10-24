@@ -160,6 +160,12 @@ MEMORIX_SCHEMA=schema.json memorix diagnose --db my.db
 - 1,238 条记忆的只读快照：冷加载 ~**0.18 s**，热召回中位 ~**43 ms**，
   注入块 ~**620 chars**。环境相关，见 [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md)。
 
+## CI/CD
+
+- `.github/workflows/ci.yml` — Python 3.10/3.11/3.12 上跑 pytest + 两个 bench + eval。
+- `.github/workflows/release.yml` — `v*` tag → 测试、构建 wheel/sdist、安装 smoke、发 GitHub Release。
+- `.github/workflows/publish.yml` — 手动触发 PyPI 上传，走 trusted publishing（OIDC，不需要在 secret 里放 token）。
+
 ## 文档
 
 - [用例](docs/USE-CASES.md) · [架构](docs/ARCHITECTURE.md) ·
