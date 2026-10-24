@@ -59,7 +59,7 @@ git push origin main --tags
 > 本仓库位于 `/sdcard`（FUSE），`git init/add` 会报 `failed to insert into database`；
 > 发布前先 `cp -a memorix ~/memorix && cd ~/memorix` 到普通磁盘，或直接在 GitHub 建仓后 clone。
 
-> v0.3.1 修复了 Python 3.10 CI 的 `tomllib` 测试导入；v0.2.0 的 GitHub Release 已存在。
+> v0.3.0 提供 provider 抽象/vector seam；v0.3.1 修复了 provider 测试里依赖随机 `hash()` 的问题，CI 三版本全绿。
 
 push `v*` tag 后 `.github/workflows/release.yml` 会：测试 → 构建 wheel/sdist → 安装 smoke → GitHub Release 挂 artifacts。
 
