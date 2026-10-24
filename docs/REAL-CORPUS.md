@@ -24,6 +24,15 @@ python -m memorix.eval.real_corpus \
 - On snapshot hash mismatch the check fails before touching recall.
 - Content-hash mismatch also fails, so a changed memory is visible without leaking it.
 
+## What is the historical data gap?
+
+`case3-versions` asks *why 8-23 was harder than 8-19*. At that cutoff the corpus had no
+single memory comparing the two dates: the 8-19 evidence was about a root cause that could be
+verified from code/logs, while 8-23 was a blind-change period (no logcat, not reproducible).
+The comparison memory was added **after** the question (and is excluded by point-in-time
+replay), so historical replay stays 5/6; current replay is 6/6. This is a data gap, not a
+scorer failure. No raw production text is stored here.
+
 ## Updating
 
 Copy the new snapshot hash and expected content hashes into the manifest, review the diff,

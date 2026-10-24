@@ -1,0 +1,192 @@
+Metadata-Version: 2.4
+Name: memorix
+Version: 0.2.0
+Summary: Dependency-free memory-patrol, recall and decision-gate kernels with CLI + MCP server
+Author: memorix contributors
+License-Expression: Apache-2.0
+Keywords: memory,patrol,recall,decision,agent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: anchor
+Requires-Dist: jieba>=0.42; extra == "anchor"
+Provides-Extra: test
+Requires-Dist: pytest>=8; extra == "test"
+Requires-Dist: jieba>=0.42; extra == "test"
+Dynamic: license-file
+
+# memorix (M0–M4)
+
+Dependency-free kernels extracted from the *memory patrol* (记忆巡检) and
+*group-chat judge* subsystems: orphan-batch gate, real sender labels,
+config-audit snapshot diff, decay/consolidation planning, intent expiry, finish
+gate, lexical recall scorer, composable decision gates, metrics, offline eval,
+untrusted wrapper and an MCP stdio server.
+
+M0–M4 are **host-agnostic kernels**: no AstrBot import, no network. File IO lives
+behind `memorix.adapters.files`; the CLI/store (M1), the recall scorer (M1.5)
+and the gatekeep decision kernel (M2) build on the M0 pure policies.
+
+## Install
+
+```bash
+cd /sdcard/dsh-work/memorix
+python -m pip install .                 # runtime, no third-party deps
+python -m pip install '.[test]'         # pytest + jieba for the full suite
+memorix --version                       # memorix 0.2.0
+```
+
+For a local checkout, `PYTHONPATH=src` works without installing.
+
+## Foreign databases (schema mapping)
+
+Your tables do not need the native AstrBot names:
+
+```bash
+memorix diagnose --db my.db --schema schema.json   # explicit mapping
+memorix diagnose --db my.db --schema auto          # auto-detect
+MEMORIX_SCHEMA=schema.json memorix diagnose --db my.db
+```
+
+Only a memories table is required; message-dependent features (`status`/`finish`) return a
+clear `SchemaError` when `raw_messages`/`bot_messages` are not mapped. MCP tools accept a
+`schema` argument. A real AstrBot handoff is included at
+[examples/astrbot-self-learning.schema.json](examples/astrbot-self-learning.schema.json)
+(ms/s units, `archived` exclusion, private-chat rule; verified on a read-only 1254-memory snapshot).
+See [docs/SCHEMA.md](docs/SCHEMA.md).
+
+## Use-case profiles (chat / project / both)
+
+```bash
+python -m memorix.profiles --list       # chat / project / both
+python -m memorix.profiles --name chat
+memorix profile --name project          # CLI view
+```
+
+`chat` = recall + gatekeep; `project` = patrol/diagnose/eval; `both` = all, **with judge-first interjection enabled and light throttle** (30/day, 10s consult, 1min speech interval). MCP accepts `--profile chat|project|both` and filters the read-only tool list. See [docs/USE-CASES.md](docs/USE-CASES.md) and the copy-ready [README-两用样稿.md](README-两用样稿.md).
+
+## MCP server
+
+```json
+{
+  "mcpServers": {
+    "memorix": {"command": "memorix-mcp", "args": ["--profile", "both", "--db", "/path/to/messages.db"]}
+  }
+}
+```
+
+Zero-dependency stdio MCP server exposing six **read-only** tools
+(diagnose / orphan / recall / gate_check / judge_replay / eval), negotiating
+protocol `2025-06-18` / `2025-03-26` / `2024-11-05`. See `docs/MCP.md`.
+
+## Run the tests (no install needed)
+
+```bash
+cd /sdcard/dsh-work/memorix
+/root/AstrBot/.venv/bin/python -m pytest -p no:cacheprovider
+```
+
+or with any Python >= 3.10 that has pytest:
+
+```bash
+python -m pytest -p no:cacheprovider
+```
+
+`pyproject.toml` sets `pythonpath = ["src"]`, so the package is importable
+without `pip install`. The full **363-test** run needs the optional `jieba` anchor extra
+(`pip install '.[test]'`); without it the anchor-dependent tests are skipped
+(`memorix.eval --suite all` still passes 24/24).
+
+## Layout
+
+```
+src/memorix/policy/            pure policy functions (M0)
+src/memorix/adapters/files.py  file IO (fingerprints/snapshots)
+src/memorix/store.py, cli.py   SQLite adapter + diagnose/repair CLI (M1)
+src/memorix/retrieval/         recall scorer + §10.3 replay bench (M1.5)
+src/memorix/gatekeep/          decision kernel + judge replay set (M2)
+src/memorix/observability/     metrics + zero-dep SVG/HTML report (M3)
+src/memorix/eval/              replay suites + baseline regression (M3)
+src/memorix/safety/            unified untrusted wrapper (M3)
+src/memorix/mcp/               MCP stdio server + 6 read-only tools (M4)
+src/memorix/profiles.py        chat / project / both presets (M4.1)
+src/memorix/schema.py          foreign-DB schema mapping / auto-detect (M4.2)
+eval/baseline.json             evaluation baseline (M3)
+dist/                          built wheel/sdist (M4)
+tests/                         pytest-native tests (363)
+docs/                          M0–M4 reports + USE-CASES/MCP/README samples
+LICENSE, CHANGELOG.md          Apache-2.0 + release notes
+```
+
+## CLI (M1)
+
+```bash
+cd /sdcard/dsh-work/memorix
+PYTHONPATH=src /root/AstrBot/.venv/bin/python -m memorix diagnose --db <path/to/messages.db>
+```
+
+All commands are **read-only by default**; writes require `--apply` and take a
+database snapshot first. Paths are explicit (`--db/--state/--ledger/...`) or
+`MEMORIX_*` env vars — nothing points at production by default. See
+`docs/M1.md` for the full command table and `docs/DECISIONS.md` for the
+approved design decisions.
+
+## Recall scorer (M1.5)
+
+```bash
+PYTHONPATH=src /root/AstrBot/.venv/bin/python -m memorix.retrieval.bench
+# RESULT 6/6 passed
+```
+
+Zero runtime dependencies; `jieba` is an optional anchor extra
+(`pip install -e '.[anchor]'`). Lexical only for now; the `vector` provider is a
+documented seam. `recall(query, ..., instruction=...)` never matches the
+instruction text (the guide §10.3 case-6 rule).
+
+## Gatekeep (M2)
+
+```python
+from memorix.gatekeep import Context, decide
+
+ctx = Context(
+    text="这个怎么弄？",
+    config={"enable_group_interjection": True, "group_interject_max_daily": 10},
+)
+outcome = decide(ctx, judge=lambda _ctx: '{"should_reply": true, "text": "我看看"}')
+assert outcome.action == "sent"
+```
+
+Host-agnostic: no IM types, no DB, no network. Gates, JSON contract,
+needs-tools routing (`handoff`/`tool_task`), shadow precision bookkeeping and
+two pure reviewers (bare promise / absence-without-retrieval). See
+`docs/M2.md`.
+
+## Metrics / eval / safety (M3)
+
+```bash
+PYTHONPATH=src python -m memorix.eval --suite all --baseline eval/baseline.json
+PYTHONPATH=src python -m memorix.observability --input events.jsonl --out report.html
+```
+
+```python
+from memorix.safety import wrap_untrusted
+wrapped = wrap_untrusted(untrusted_text, source="group:g1")
+```
+
+See `docs/M3.md`. The milestones (M0–M4) stay dependency-free (no network, no
+host imports); IO lives behind adapters/CLI. M4 adds the MCP server and
+packaging — see `docs/M4.md`.
+
+## License
+
+Apache-2.0. See `LICENSE`.
+
+## Safety
+
+M0 was extracted from production **read-only**. Nothing under `/root/AstrBot`
+is modified by this package or its tests. See `docs/M0.md`.

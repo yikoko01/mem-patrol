@@ -9,4 +9,4 @@ PYTHONPATH=src ${PYTHON:-python3} -m memorix diagnose --db "$DB" --now 179200010
 echo
 PYTHONPATH=src ${PYTHON:-python3} -m memorix.retrieval.bench
 echo
-PYTHONPATH=src ${PYTHON:-python3} -m memorix.eval --suite policy --baseline eval/baseline.json
+PYTHONPATH=src ${PYTHON:-python3} -m memorix recall --db "$DB" --user-id demo-user --query "8-23 比 8-19 更难"

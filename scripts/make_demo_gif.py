@@ -56,7 +56,7 @@ def render(lines: list[str], intro: bool = False, outro: bool = False) -> Image.
     for i in range(3):
         draw.ellipse([W - 66 + i * 18, 12, W - 56 + i * 18, 22], fill="#30363d")
     draw.rectangle([0, H - FOOT_H, W, H], fill="#161b22")
-    draw.text((14, H - 21), "github.com/yikoko01/mem-patrol  ·  mem-patrol 0.3.1", font=font(12), fill=DIM)
+    draw.text((14, H - 21), "github.com/yikoko01/mem-patrol  ·  mem-patrol 0.3.2", font=font(12), fill=DIM)
     body = font(17)
     y = TITLE_H + 22
     if intro:
@@ -90,7 +90,7 @@ def main() -> int:
         ("memorix --version", ["-m", "memorix", "--version"]),
         ("memorix diagnose --db demo.db --now 1792000100", ["-m", "memorix", "diagnose", "--db", str(demo_dir / "demo.db"), "--now", "1792000100"]),
         ("python -m memorix.retrieval.bench", ["-m", "memorix.retrieval.bench"]),
-        ("python -m memorix.eval --suite policy", ["-m", "memorix.eval", "--suite", "policy", "--baseline", str(ROOT / "eval" / "baseline.json")]),
+        ("memorix recall --query \"8-23 比 8-19 更难\" --user-id demo-user", ["-m", "memorix", "recall", "--db", str(demo_dir / "demo.db"), "--user-id", "demo-user", "--query", "8-23 比 8-19 更难"]),
     ]
     outputs = [(command, wrap_lines(run(args))) for command, args in commands]
     frames: list[Image.Image] = []

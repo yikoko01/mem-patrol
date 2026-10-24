@@ -42,6 +42,24 @@ user's own words (the instruction text must not be used as the query — guide
 
 ## Client config
 
+### Claude Desktop
+
+Edit `claude_desktop_config.json`:
+
+```json
+{"mcpServers":{"memorix":{"command":"memorix-mcp","args":["--profile","both","--db","/absolute/path/messages.db"]}}}
+```
+
+### Cursor
+
+`.cursor/mcp.json` uses the same shape:
+
+```json
+{"mcpServers":{"memorix":{"command":"memorix-mcp","args":["--profile","chat","--db","/absolute/path/messages.db"]}}}
+```
+
+Use absolute DB paths; the server is stdio-only and read-only.
+
 ```json
 {
   "mcpServers": {

@@ -3,6 +3,14 @@
 All notable changes to this project. The kernels are extracted read-only from the
 production AstrBot patrol/private-companion systems; production code is untouched.
 
+## [0.3.2] - 2026-10-24
+
+### Added
+- CLI `memorix recall --db ... --query ... [--user-id ...]` with `--json`
+  (`memory_ids` + prompt-ready `text`).
+- Claude Desktop / Cursor MCP config examples; GitHub Discussions enabled;
+  community docs; real-corpus data-gap explanation; explicit vector win condition.
+
 ## [0.3.1] - 2026-10-24
 
 ### Fixed
@@ -17,6 +25,12 @@ production AstrBot patrol/private-companion systems; production code is untouche
   (`mem-patrol[vector]`). No embedding model is bundled; lexical stays default.
 - 30-second terminal demo (`docs/demo.gif`) generated from real CLI output on
   synthetic data.
+
+## Versioning note
+
+Pre-1.0: `0.2.3 → 0.3.0` was a **minor feature** (provider abstraction/vector seam),
+not a breaking rewrite; `0.3.1` was a CI/test fix. `0.3.2` adds the CLI `recall` command
+and docs/community material. Breaking changes, if any, get an explicit note.
 
 ## [0.2.4] - 2026-10-24
 

@@ -346,3 +346,13 @@ def test_finish_refuses_out_of_range_or_rewind(
     assert code == 3 and "超出" in out
     code, out = run(capsys, *common, "--user-end", 1, "--bot-end", 2)
     assert code == 3 and "回退" in out
+
+
+def test_recall_command(patrol_db, capsys):
+    code, out = run(capsys, "recall", "--db", patrol_db, "--query", "语义记忆", "--json")
+    assert code == 0
+    data = json.loads(out)
+    assert 1 in data["memory_ids"]
+    assert "语义记忆" in data["text"]
+    code, out = run(capsys, "recall", "--db", patrol_db, "--query", "不存在的词xyz")
+    assert code == 0 and out.strip() == "(empty)"

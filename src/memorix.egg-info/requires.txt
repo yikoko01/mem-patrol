@@ -1,0 +1,7 @@
+
+[anchor]
+jieba>=0.42
+
+[test]
+pytest>=8
+jieba>=0.42

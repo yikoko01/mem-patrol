@@ -61,7 +61,7 @@ Full component map: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 ```bash
 pip install mem-patrol                 # from PyPI
 # or: python -m pip install .
-memorix --version                      # mem-patrol 0.3.1
+memorix --version                      # mem-patrol 0.3.2
 ```
 
 The distribution is `mem-patrol`; the import package and original CLI remain
@@ -81,6 +81,9 @@ memorix decay --db messages.db --apply
 python -m memorix.eval --suite all --baseline eval/baseline.json
 python -m memorix.retrieval.bench      # 6/6
 python -m memorix.gatekeep.bench       # 9/9
+
+# prompt-ready recall (lexical, no LLM)
+memorix recall --db messages.db --query "为什么说 8-23 比 8-19 更难" --user-id <id>
 ```
 
 ## End-to-end: group-chat interjection
@@ -172,7 +175,7 @@ tables are not mapped. A privacy-preserving real-corpus replay is in
 
 ## Quality and benchmarks
 
-- **374 tests**; CI on Python 3.10 / 3.11 / 3.12.
+- **375 tests**; CI on Python 3.10 / 3.11 / 3.12.
 - Synthetic §10.3 replay: **6/6**; real production replay: **6/6 current**,
   **5/6 historical** (one data gap documented, not an algorithm failure).
 - On a 1,238-memory read-only snapshot: cold load ~**0.18 s**, warm recall median
@@ -193,6 +196,11 @@ tables are not mapped. A privacy-preserving real-corpus replay is in
   [MCP](docs/MCP.md) · [Interjection](docs/INTERJECTION.md) ·
   [Real corpus](docs/REAL-CORPUS.md) · [Comparison](docs/COMPARISON.md) ·
   [Benchmarks](docs/BENCHMARKS.md) · [Vector design](docs/VECTOR-PROVIDER.md) · [Release](docs/RELEASE.md) · [FAQ](docs/FAQ.md)
+
+## Community
+
+- [Discussions](https://github.com/yikoko01/mem-patrol/discussions) — use cases, questions, show-and-tell.
+- [Contributing](CONTRIBUTING.md) · [Roadmap](ROADMAP.md) · [Issue templates](.github/ISSUE_TEMPLATE).
 
 ## License
 

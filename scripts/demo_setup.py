@@ -11,7 +11,7 @@ MEMORIES = [
     ("auto_patrol", 8, "8-19：启动器 v3 的根因是 scoped storage，旧 app 读不到共享目录。"),
     ("auto_patrol", 8, "8-19：v4 修掉 InjectActivity finish 陷阱，根因在代码里可见。"),
     ("episodic", 7, "8-23：装不上、无 logcat、上次成功不可复现，进入盲改期。"),
-    ("manual_remember", 9, "8-23 比 8-19 更难：前者缺新信息（盲改），后者有明确根因可验证。"),
+    ("manual_remember", 9, "石头门：8-23 比 8-19 更难——8-19 根因明确，8-23 是盲改期。"),
     ("learning_gap", 7, "教训：排障先固定版本与环境，再改代码；否则会把工具链问题当成程序 bug。"),
     ("contract", 9, "红线：不删用户数据、不把生产库当测试库。"),
     ("progress", 6, "进度：已能复现问题，下一步是补齐错误日志开关。"),
@@ -43,7 +43,7 @@ def main(argv=None) -> int:
             "insert into memories values (?,?,?,?,?,?,?,?,?,?)",
             (index, "demo", "demo-user", content, importance, memory_type, (base + index) * 1000, 0, 0, None),
         )
-    conn.execute("insert into raw_messages values (1,'demo-user','demo-user','项目最困难的阶段是什么','demo-user',?)", (base + 20,))
+    conn.execute("insert into raw_messages values (1,'demo-user','demo-user','这次我指定一个，石头门','demo-user',?)", (base + 20,))
     conn.execute("insert into bot_messages values (1,'demo','我们会从起点开始理。',?)", (base + 21,))
     conn.commit()
     conn.close()

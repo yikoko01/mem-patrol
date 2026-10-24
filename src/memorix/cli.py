@@ -88,6 +88,17 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("--strict", action="store_true", help="exit 1 when a HIGH finding exists")
     p.set_defaults(func=cmd_diagnose)
 
+    p = sub.add_parser("recall", help="prompt-ready lexical recall")
+    _common(p)
+    p.add_argument("--query", required=True, help="the user's own words")
+    p.add_argument("--context", default="", help="recent conversation context (optional)")
+    p.add_argument("--user-id", default="", help="filter/boost a user; builds private context if --context is empty")
+    p.add_argument("--group-id", default="", help="group filter/boost")
+    p.add_argument("--top-k", type=int, default=5)
+    p.add_argument("--max-chars", type=int, default=900)
+    p.add_argument("--as-of-ms", type=int, help="point-in-time cutoff (epoch milliseconds)")
+    p.set_defaults(func=cmd_recall)
+
     p = sub.add_parser("orphan", help="list orphan batches (written but cursor not advanced)")
     _common(p)
     p.set_defaults(func=cmd_orphan)
@@ -421,6 +432,39 @@ def cmd_audit(args: argparse.Namespace) -> int:
         save_snapshot(paths.audit_snapshot, result.snapshot)
         print("AUDIT_SNAPSHOT_SAVED=%s" % paths.audit_snapshot)
     return 1 if args.strict and result.suspicious else 0
+
+
+def cmd_recall(args: argparse.Namespace) -> int:
+    from .retrieval.context import recent_private_context
+    from .retrieval.score import format_scored, recall_scored
+    from .retrieval.store import load_rows
+
+    paths = _paths(args)
+    rows = load_rows(paths.db, as_of_ms=args.as_of_ms, schema=paths.schema)
+    context = args.context or ""
+    if not context and args.user_id:
+        context = recent_private_context(
+            paths.db,
+            args.user_id,
+            limit=4,
+            schema=paths.schema,
+            as_of_ts=(args.as_of_ms // 1000) if args.as_of_ms else None,
+        )
+    top_k = max(1, int(args.top_k))
+    scored = recall_scored(
+        args.query,
+        rows=rows,
+        context=context,
+        group_id=args.group_id,
+        user_id=args.user_id,
+        top_k=top_k,
+    )
+    text = format_scored(scored[:top_k], max_chars=args.max_chars)
+    if args.json:
+        print(json.dumps({"query": args.query, "memory_ids": [item.row.id for item in scored[:top_k]], "text": text}, ensure_ascii=False))
+    else:
+        print(text or "(empty)")
+    return 0
 
 
 def cmd_profile(args: argparse.Namespace) -> int:

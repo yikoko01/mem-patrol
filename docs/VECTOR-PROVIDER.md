@@ -38,6 +38,17 @@ Implemented:
   (`pip install 'mem-patrol[vector]'`).
 - Core tests must pass without the extra.
 
+## Win condition (explicit)
+
+Vector can become the default only if, on `eval/real_corpus.json`:
+
+- **top-1 hit rate ≥ lexical + 5 percentage points**, and
+- **no case regressions** (any case that lexical passes must still pass), and
+- warm latency ≤ **2×** lexical on the same corpus.
+
+Otherwise lexical remains the default. Report both numbers per case; a single anecdote is not
+enough. Run the same manifest for both backends before changing the default.
+
 ## Evaluation
 
 The same §10.3 cases and the real-corpus manifest must run against both providers:

@@ -59,7 +59,7 @@ flowchart LR
 ```bash
 pip install mem-patrol                 # PyPI
 # 或：python -m pip install .
-memorix --version                      # mem-patrol 0.3.1
+memorix --version                      # mem-patrol 0.3.2
 ```
 
 发行名是 `mem-patrol`；导入包和原 CLI 仍是 `memorix`，另有 `mem-patrol` /
@@ -79,6 +79,9 @@ memorix decay --db messages.db --apply
 python -m memorix.eval --suite all --baseline eval/baseline.json
 python -m memorix.retrieval.bench      # 6/6
 python -m memorix.gatekeep.bench       # 9/9
+
+# prompt-ready 召回（lexical，不走 LLM）
+memorix recall --db messages.db --query "为什么说 8-23 比 8-19 更难" --user-id <id>
 ```
 
 ## 端到端：群聊接话
@@ -170,7 +173,7 @@ MEMORIX_SCHEMA=schema.json memorix diagnose --db my.db
 
 ## 质量与基准
 
-- **374 tests**；CI 覆盖 Python 3.10 / 3.11 / 3.12。
+- **375 tests**；CI 覆盖 Python 3.10 / 3.11 / 3.12。
 - §10.3 合成回放 **6/6**；真实库回放 **current 6/6**、**historical 5/6**
   （一个数据缺口，不是算法 fail）。
 - 1,238 条记忆的只读快照：冷加载 ~**0.18 s**，热召回中位 ~**43 ms**，
@@ -190,6 +193,11 @@ MEMORIX_SCHEMA=schema.json memorix diagnose --db my.db
   [MCP](docs/MCP.md) · [接话策略](docs/INTERJECTION.md) ·
   [真实库回归](docs/REAL-CORPUS.md) · [对比](docs/COMPARISON.md) ·
   [基准](docs/BENCHMARKS.md) · [向量设计](docs/VECTOR-PROVIDER.md) · [发布](docs/RELEASE.md) · [FAQ](docs/FAQ.md)
+
+## 社区
+
+- [Discussions](https://github.com/yikoko01/mem-patrol/discussions)：用例、问答、show-and-tell。
+- [贡献指南](CONTRIBUTING.md) · [路线图](ROADMAP.md) · [Issue 模板](.github/ISSUE_TEMPLATE)。
 
 ## License
 
