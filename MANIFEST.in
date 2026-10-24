@@ -7,3 +7,4 @@ recursive-include tests *.py
 include .github/workflows/*.yml
 recursive-include examples *.json *.md
 recursive-include scripts *.py
+include README.zh.md

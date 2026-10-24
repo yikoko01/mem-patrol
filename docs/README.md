@@ -3,6 +3,10 @@
 Current, host-neutral entry points:
 
 - [`USE-CASES.md`](USE-CASES.md) — chat bot / long-term project / both
+- [`ARCHITECTURE.md`](ARCHITECTURE.md) — layers, data flow, invariants
+- [`END-TO-END.md`](END-TO-END.md) — chat interjection and repair walkthroughs
+- [`BENCHMARKS.md`](BENCHMARKS.md) — measured latency/size and quality gates
+- [`COMPARISON.md`](COMPARISON.md) — positioning vs memory frameworks
 - [`SCHEMA.md`](SCHEMA.md) — any SQLite schema; one real-world example included
 - [`MCP.md`](MCP.md) — MCP server and tools
 - [`INTERJECTION.md`](INTERJECTION.md) — judge-first, lightly-throttled interjection
