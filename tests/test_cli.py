@@ -402,7 +402,10 @@ def test_doctor_duplicate_dist_info_and_metadata_fallback(monkeypatch, capsys):
     assert data["version"] == __import__("memorix").__version__
     assert len(data["distributions"]) == 2
     assert data["entrypoints"] == ["mem-patrol", "mem-patrol-mcp", "memorix", "memorix-mcp"]
-    assert any("duplicate mem-patrol dist-info" in note for note in data["notes"])
+    assert data["clean"] is False
+    assert any("duplicate mem-patrol dist-info" in warning for warning in data["warnings"])
+    code, _ = run(capsys, "doctor", "--json", "--strict")
+    assert code == 1
 
 
 def test_doctor_scripts_survive_stale_metadata(monkeypatch, capsys):
@@ -419,4 +422,4 @@ def test_doctor_scripts_survive_stale_metadata(monkeypatch, capsys):
     data = json.loads(out)
     assert code == 0
     assert data["entrypoints"] == []
-    assert any("scripts exist" in note for note in data["notes"])
+    assert any("scripts exist" in warning for warning in data["warnings"])

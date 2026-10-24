@@ -94,6 +94,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("doctor", help="self-check package files, entry points, jieba and a DB")
     _common(p)
+    p.add_argument("--strict", action="store_true", help="exit 1 when warnings exist (e.g. stale dist-info)")
     p.set_defaults(func=cmd_doctor)
 
     p = sub.add_parser("recall", help="prompt-ready lexical recall")
@@ -504,6 +505,7 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     import memorix
 
     problems: list[str] = []
+    warnings_list: list[str] = []
     notes: list[str] = []
     module_file = Path(getattr(memorix, "__file__", "") or "")
     package_dir = module_file.parent
@@ -511,7 +513,7 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     if not module_file or not package_dir.exists():
         problems.append("package file is missing (broken install?)")
     if symlink:
-        notes.append(
+        warnings_list.append(
             "package directory is a symlink (uv link-mode?); on no-hardlink filesystems use "
             "UV_LINK_MODE=copy or uv pip install --link-mode=copy"
         )
@@ -538,14 +540,14 @@ def cmd_doctor(args: argparse.Namespace) -> int:
             "%s version=%s record=%s" % (item["path"] or item["name"], item["version"], item["has_record"])
             for item in records
         )
-        notes.append(
+        warnings_list.append(
             "duplicate mem-patrol dist-info found (%d): %s; remove the stale/unrecorded one"
             % (len(records), stale)
         )
     if not records:
         notes.append("no mem-patrol dist-info found (source checkout?)")
     elif not entrypoints and script_found:
-        notes.append(
+        warnings_list.append(
             "metadata has no console_scripts (stale dist-info?) but scripts exist: %s"
             % ",".join(script_found)
         )
@@ -565,6 +567,8 @@ def cmd_doctor(args: argparse.Namespace) -> int:
             db_info = {"db": str(paths.db), "memories": len(store.iter_memories()), "schema": store.schema.name}
     result = {
         "ok": not problems,
+        "clean": not problems and not warnings_list,
+        "warnings": warnings_list,
         "version": __version__,
         "python": sys.version.split()[0],
         "package_file": str(module_file),
@@ -580,7 +584,8 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
-        print("DOCTOR_%s" % ("OK" if not problems else "FAIL"))
+        status = "FAIL" if problems else ("WARN" if warnings_list else "OK")
+        print("DOCTOR_%s" % status)
         print("version:", __version__, "python:", result["python"])
         print("package:", module_file, "symlink:", symlink)
         print("entrypoints:", ",".join(entrypoints) or "(metadata unavailable)")
@@ -591,11 +596,17 @@ def cmd_doctor(args: argparse.Namespace) -> int:
         print("jieba:", jieba_info)
         if db_info:
             print("db:", db_info["db"], "memories:", db_info["memories"], "schema:", db_info["schema"])
+        for warning in warnings_list:
+            print("WARNING:", warning)
         for note in notes:
             print("NOTE:", note)
         for problem in problems:
             print("PROBLEM:", problem)
-    return 1 if problems else 0
+    if problems:
+        return 1
+    if getattr(args, "strict", False) and warnings_list:
+        return 1
+    return 0
 
 
 def cmd_recall(args: argparse.Namespace) -> int:
