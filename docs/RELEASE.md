@@ -19,7 +19,7 @@
 
 **GitHub**：<https://github.com/yikoko01/mem-patrol/releases/tag/v0.3.4>  
 **PyPI**：<https://pypi.org/project/mem-patrol/0.3.4/>  
-**CI**：3.10/3.11/3.12 全绿（`2984f309`）。
+**CI**：3.10/3.11/3.12 全绿（`f3393f4`）。
 
 **生产写入备份**：`/sdcard/dsh-work/backups/live-messages-before-version-memory-20261022-0002.db`（integrity_check ok）。
 回滚（停 bot 后）：`delete from memories where id=1256;` 或整体恢复该 backup。
@@ -27,7 +27,7 @@
 ## 1.5 已发布的 GitHub Release
 
 - repo: <https://github.com/yikoko01/mem-patrol>
-- tag: `v0.3.4`（commit `2984f309`）
+- tag: `v0.3.4`（commit `f3393f4`）
 - assets: `mem_patrol-0.3.4-py3-none-any.whl`、`mem_patrol-0.3.4.tar.gz`
 - repo description / topics 已设置
 - v0.2.0/v0.2.1 是历史 release（Apache-2.0；v0.2.0 的 3.10 CI 曾红）；v0.2.2 起 MIT，CI 全绿
