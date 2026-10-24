@@ -69,6 +69,24 @@ all matching dist-info records and warns; remove the stale one (or reinstall wit
 `UV_LINK_MODE=copy`). It also checks the scripts next to `sys.executable`, so metadata alone
 cannot make it claim "not installed".
 
+## One-shot probe for your own DB
+
+After copying your DB (never production), run:
+
+```bash
+python integration_check.py --db /tmp/memcopy.db --schema auto \
+  --user-id your_id --query "your real question"
+```
+
+It only runs `--version`, `doctor`, `diagnose`, `recall`; no `--apply`. If `auto` fails,
+send only `sqlite3 /tmp/memcopy.db ".schema"` (no rows).
+
+## `doctor`: ok vs clean
+
+- `ok: true` = package can run (imports/entrypoints/DB).
+- `clean: true` = no warnings; stale dist-info/symlink makes `clean: false` while `ok` stays true.
+- CI should use `memorix doctor --strict` (exit 1 on warnings) or read `clean`, not only `ok`.
+
 ## What we want to know
 
 Please answer in your own words; “this is confusing” is useful.

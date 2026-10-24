@@ -196,11 +196,28 @@ MEMORIX_SCHEMA=schema.json memorix diagnose --db my.db
 
 ## 质量与基准
 
-- **381 tests**；CI 覆盖 Python 3.10 / 3.11 / 3.12。
+- **385 tests**；CI 覆盖 Python 3.10 / 3.11 / 3.12。
 - §10.3 合成回放 **6/6**；真实库回放 **current 6/6**、**historical 5/6**
   （一个数据缺口，不是算法 fail）。
 - 1,238 条记忆的只读快照：冷加载 ~**0.18 s**，热召回中位 ~**43 ms**，
   注入块 ~**620 chars**。环境相关，见 [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md)。
+
+## `doctor`：ok 与 clean 的区别
+
+`memorix doctor` 把“能不能跑”和“环境干不干净”分开：
+
+- `ok` — 导入和入口正常；这是**可运行**信号。
+- `clean` — `ok` 且没有 warnings；这是**环境/CI**信号。
+- `warnings[]` — 非致命残留（如重复 stale dist-info、软链包目录）。
+- `--strict` — 有 warning 就 exit 1，给 CI 用。
+
+```bash
+memorix doctor            # OK / WARN / FAIL
+memorix doctor --json     # 脚本读 ok、clean、warnings
+memorix doctor --strict   # CI：有残留直接失败
+```
+
+只读 `ok` 的脚本可能放过“能用但环境脏”；在意环境时用 `clean` 或 `--strict`。
 
 ## CI/CD
 
@@ -212,7 +229,7 @@ MEMORIX_SCHEMA=schema.json memorix diagnose --db my.db
 
 - [贡献指南](CONTRIBUTING.md) · [路线图](ROADMAP.md)
 - [用例](docs/USE-CASES.md) · [架构](docs/ARCHITECTURE.md) ·
-  [端到端](docs/END-TO-END.md) · [Schema](docs/SCHEMA.md) ·
+  [端到端](docs/END-TO-END.md) · [Schema](docs/SCHEMA.md) · [接入测试](docs/INTEGRATION.md) · [Integration](docs/INTEGRATION.md) ·
   [MCP](docs/MCP.md) · [接话策略](docs/INTERJECTION.md) ·
   [真实库回归](docs/REAL-CORPUS.md) · [对比](docs/COMPARISON.md) ·
   [基准](docs/BENCHMARKS.md) · [向量设计](docs/VECTOR-PROVIDER.md) · [发布](docs/RELEASE.md) · [FAQ](docs/FAQ.md)

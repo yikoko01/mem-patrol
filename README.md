@@ -200,12 +200,30 @@ tables are not mapped. A privacy-preserving real-corpus replay is in
 
 ## Quality and benchmarks
 
-- **381 tests**; CI on Python 3.10 / 3.11 / 3.12.
+- **385 tests**; CI on Python 3.10 / 3.11 / 3.12.
 - Synthetic §10.3 replay: **6/6**; real production replay: **6/6 current**,
   **5/6 historical** (one data gap documented, not an algorithm failure).
 - On a 1,238-memory read-only snapshot: cold load ~**0.18 s**, warm recall median
   ~**43 ms**, injected block ~**620 chars**. Environment-specific; see
   [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md).
+
+## `doctor`: ok vs clean
+
+`memorix doctor` separates "can it run?" from "is the environment clean?":
+
+- `ok` — imports and entry points work; this is the runnability signal.
+- `clean` — `ok` and no warnings; this is the CI/environment signal.
+- `warnings[]` — non-fatal residue (e.g. stale duplicate dist-info, symlinked package dir).
+- `--strict` — exit 1 if any warning exists, for CI gates.
+
+```bash
+memorix doctor            # OK / WARN / FAIL
+memorix doctor --json     # scripts: read ok, clean, warnings
+memorix doctor --strict   # CI: fail on residue
+```
+
+A script that only reads `ok` can run a usable but dirty environment; use `clean` or
+`--strict` when you care about the environment.
 
 ## CI/CD
 
@@ -217,7 +235,7 @@ tables are not mapped. A privacy-preserving real-corpus replay is in
 
 - [Contributing](CONTRIBUTING.md) · [Roadmap](ROADMAP.md)
 - [Use cases](docs/USE-CASES.md) · [Architecture](docs/ARCHITECTURE.md) ·
-  [End-to-end](docs/END-TO-END.md) · [Schema](docs/SCHEMA.md) ·
+  [End-to-end](docs/END-TO-END.md) · [Schema](docs/SCHEMA.md) · [接入测试](docs/INTEGRATION.md) · [Integration](docs/INTEGRATION.md) ·
   [MCP](docs/MCP.md) · [Interjection](docs/INTERJECTION.md) ·
   [Real corpus](docs/REAL-CORPUS.md) · [Comparison](docs/COMPARISON.md) ·
   [Benchmarks](docs/BENCHMARKS.md) · [Vector design](docs/VECTOR-PROVIDER.md) · [Release](docs/RELEASE.md) · [FAQ](docs/FAQ.md)
