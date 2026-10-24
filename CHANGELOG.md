@@ -3,6 +3,12 @@
 All notable changes to this project. The kernels are extracted read-only from the
 production AstrBot patrol/private-companion systems; production code is untouched.
 
+## [0.3.1] - 2026-10-24
+
+### Fixed
+- Provider test embedder no longer relies on randomized built-in `hash()`; CI
+  is deterministic on Python 3.10/3.11/3.12.
+
 ## [0.3.0] - 2026-10-24
 
 ### Added

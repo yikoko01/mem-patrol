@@ -61,7 +61,7 @@ Full component map: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 ```bash
 pip install mem-patrol                 # from PyPI
 # or: python -m pip install .
-memorix --version                      # mem-patrol 0.3.0
+memorix --version                      # mem-patrol 0.3.1
 ```
 
 The distribution is `mem-patrol`; the import package and original CLI remain

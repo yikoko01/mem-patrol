@@ -1,6 +1,8 @@
 """Pluggable recall providers: lexical default, vector with caller embedder."""
 from __future__ import annotations
 
+import hashlib
+
 from memorix.retrieval.provider import (
     LexicalProvider,
     VectorProvider,
@@ -18,7 +20,8 @@ def embed(texts):
     for text in texts:
         vector = [0.0] * 64
         for char in text:
-            vector[hash(char) % 64] += 1.0
+            # Deterministic across processes: built-in hash() is randomized.
+            vector[hashlib.sha256(char.encode("utf-8")).digest()[0] % 64] += 1.0
         out.append(vector)
     return out
 
