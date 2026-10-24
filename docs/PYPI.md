@@ -23,9 +23,10 @@ TWINE_USERNAME=__token__ TWINE_PASSWORD=<pypi-token> python -m twine upload dist
 
 ## Current state
 
-- **Published: `mem-patrol 0.2.3`** → https://pypi.org/project/mem-patrol/0.2.3/
+- **Latest on PyPI: `mem-patrol 0.3.1`** → https://pypi.org/project/mem-patrol/0.3.1/
+- `0.3.2` is published on GitHub; its PyPI upload is pending because the old token is invalid (403).
 - License metadata: **MIT**; wheel and sdist are live.
-- Verified with `pip install mem-patrol==0.2.3` in a clean prefix.
+- Verified with `pip install mem-patrol==0.3.1` in a clean prefix.
 - `publish.yml` remains `workflow_dispatch`; configure trusted publishing to use
   it for future releases (no token in secrets).
 
