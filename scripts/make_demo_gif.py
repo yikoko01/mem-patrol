@@ -56,7 +56,7 @@ def render(lines: list[str], intro: bool = False, outro: bool = False) -> Image.
     for i in range(3):
         draw.ellipse([W - 66 + i * 18, 12, W - 56 + i * 18, 22], fill="#30363d")
     draw.rectangle([0, H - FOOT_H, W, H], fill="#161b22")
-    draw.text((14, H - 21), "github.com/yikoko01/mem-patrol  ·  mem-patrol 0.3.6", font=font(12), fill=DIM)
+    draw.text((14, H - 21), "github.com/yikoko01/mem-patrol  ·  mem-patrol 0.3.7", font=font(12), fill=DIM)
     body = font(17)
     y = TITLE_H + 22
     if intro:

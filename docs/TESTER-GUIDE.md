@@ -1,6 +1,6 @@
 # Tester guide (20–30 minutes)
 
-Thank you for testing **MemPatrol 0.3.6**. You do **not** need to know the codebase. We need
+Thank you for testing **MemPatrol 0.3.7**. You do **not** need to know the codebase. We need
 honest feedback on installation, diagnosis, recall and whether the output is actionable.
 
 ## Safety first
@@ -15,8 +15,8 @@ honest feedback on installation, diagnosis, recall and whether the output is act
 ## Path A — try the bundled demo (no DB needed)
 
 ```bash
-python -m pip install mem-patrol==0.3.6
-# Android/proot/FAT: UV_LINK_MODE=copy uv pip install mem-patrol==0.3.6
+python -m pip install mem-patrol==0.3.7
+# Android/proot/FAT: UV_LINK_MODE=copy uv pip install mem-patrol==0.3.7
 cd tester-kit
 PYTHON=python3 bash check.sh
 ```
@@ -32,7 +32,7 @@ memorix recall --db demo.db --user-id demo-user --query "8-23 比 8-19 更难"
 python -m memorix.eval --suite all
 ```
 
-Expected: version prints `mem-patrol 0.3.6`; diagnosis shows `total=12` and findings; recall
+Expected: version prints `mem-patrol 0.3.7`; diagnosis shows `total=12` and findings; recall
 returns a memory block; eval is 24/24.
 
 ## Path B — your own SQLite DB (the useful test)
@@ -73,7 +73,7 @@ cannot make it claim "not installed".
 
 Please answer in your own words; “this is confusing” is useful.
 
-1. Install: did `pip install mem-patrol==0.3.6` and `memorix --version` work? OS/Python?
+1. Install: did `pip install mem-patrol==0.3.7` and `memorix --version` work? OS/Python?
 2. Diagnosis: did it find anything **actionable**? Which finding was useful/noisy?
 3. Schema: did `--schema auto` work? If not, what did the error say?
 4. Recall: did it return the right memory? Did it inject an **irrelevant contract/preference**

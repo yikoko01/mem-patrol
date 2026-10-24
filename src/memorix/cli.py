@@ -484,6 +484,7 @@ def _scan_mem_patrol_distributions() -> list[dict[str, Any]]:
                 "name": name,
                 "version": dist.version or None,
                 "path": str(getattr(dist, "_path", "") or ""),
+                "kind": "egg-info" if str(getattr(dist, "_path", "") or "").endswith(".egg-info") else "dist-info",
                 "has_record": _dist_has_record(dist),
                 "entrypoints": entrypoints,
             }
@@ -526,23 +527,25 @@ def cmd_doctor(args: argparse.Namespace) -> int:
         except Exception as exc:  # noqa: BLE001
             problems.append("%s import failed: %s" % (name, exc))
     records = _scan_mem_patrol_distributions()
+    installed = [item for item in records if item["kind"] == "dist-info"]
+    candidates = installed or records
     preferred = next(
-        (item for item in records if item["version"] and item["has_record"]),
-        next((item for item in records if item["version"]), records[0] if records else None),
+        (item for item in candidates if item["version"] and item["has_record"]),
+        next((item for item in candidates if item["version"]), candidates[0] if candidates else None),
     )
     entrypoints = list(preferred["entrypoints"]) if preferred else []
     if not entrypoints and records:
         entrypoints = sorted({name for item in records for name in item["entrypoints"]})
     scripts = _script_presence()
     script_found = [name for name, present in scripts.items() if present]
-    if len(records) > 1:
+    if len(installed) > 1:
         stale = "; ".join(
             "%s version=%s record=%s" % (item["path"] or item["name"], item["version"], item["has_record"])
-            for item in records
+            for item in installed
         )
         warnings_list.append(
             "duplicate mem-patrol dist-info found (%d): %s; remove the stale/unrecorded one"
-            % (len(records), stale)
+            % (len(installed), stale)
         )
     if not records:
         notes.append("no mem-patrol dist-info found (source checkout?)")

@@ -3,6 +3,12 @@
 All notable changes to this project. The kernels are extracted read-only from the
 production AstrBot patrol/private-companion systems; production code is untouched.
 
+## [0.3.7] - 2026-10-24
+
+### Fixed
+- `doctor` no longer treats editable/source `.egg-info` as a stale duplicate
+  `.dist-info` warning in CI/source checkouts.
+
 ## [0.3.6] - 2026-10-24
 
 ### Added

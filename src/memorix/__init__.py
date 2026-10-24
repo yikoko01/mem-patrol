@@ -1,4 +1,4 @@
 """memorix — deterministic kernel extracted from the memory-patrol subsystem."""
 
-__version__ = "0.3.6"
+__version__ = "0.3.7"
 __all__ = ["__version__"]
