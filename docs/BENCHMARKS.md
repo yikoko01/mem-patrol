@@ -62,6 +62,9 @@ gap, not a scorer failure. See `verify/prod-replay-20261021.md`.
 
 ## Scaling: 10K / 50K synthetic memories
 
+![10K/50K scaling](benchmarks.svg)
+
+
 `scripts/bench_scale.py` builds a synthetic native-schema DB, then measures
 read/plan/diagnose/recall. Warm recall excludes the first jieba/anchor call; each
 number is this device, single run (not a statistically rigorous benchmark).

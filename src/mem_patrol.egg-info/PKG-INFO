@@ -1,15 +1,21 @@
 Metadata-Version: 2.4
 Name: mem-patrol
-Version: 0.3.2
+Version: 0.3.3
 Summary: Memory patrol, lexical recall and conversation gates for long-lived agents (CLI + MCP, zero runtime dependencies)
 Author: MemPatrol contributors
 License-Expression: MIT
-Keywords: memory,patrol,recall,decision,agent,mcp,sqlite,chatbot
+Keywords: memory,memory-management,patrol,recall,retrieval,agent,llm-agents,mcp,model-context-protocol,sqlite,chatbot,conversation
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Environment :: Console
 Classifier: Programming Language :: Python :: 3
 Classifier: Programming Language :: Python :: 3.10
 Classifier: Programming Language :: Python :: 3.11
 Classifier: Programming Language :: Python :: 3.12
 Classifier: Operating System :: OS Independent
+Classifier: Topic :: Database
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
 Requires-Python: >=3.10
 Description-Content-Type: text/markdown
 License-File: LICENSE
@@ -46,6 +52,8 @@ chat events ──► gatekeep ◄───────────────�
         └────► LLM judge ──► send / handoff / tool_task / drop
 ```
 
+<p align="center"><img src="docs/demo.gif" alt="MemPatrol terminal demo" width="880"></p>
+
 ## Why MemPatrol
 
 - **Deterministic by default.** Audits, decay/consolidation plans, intent expiry and
@@ -60,8 +68,6 @@ chat events ──► gatekeep ◄───────────────�
   snapshot first. Every release has offline eval and a real-corpus replay gate.
 - **No host lock-in.** No AstrBot/QQ/Telegram types in the kernels. Any adapter can
   build the small `Context`/rows structures.
-
-![MemPatrol terminal demo](docs/demo.gif)
 
 ## Architecture
 
@@ -87,7 +93,7 @@ Full component map: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 ```bash
 pip install mem-patrol                 # from PyPI
 # or: python -m pip install .
-memorix --version                      # mem-patrol 0.3.2
+memorix --version                      # mem-patrol 0.3.3
 ```
 
 The distribution is `mem-patrol`; the import package and original CLI remain
@@ -225,7 +231,7 @@ tables are not mapped. A privacy-preserving real-corpus replay is in
 
 ## Community
 
-- [Discussions](https://github.com/yikoko01/mem-patrol/discussions) — use cases, questions, show-and-tell.
+- [Discussions](https://github.com/yikoko01/mem-patrol/discussions) · [Community guide](docs/COMMUNITY.md) — use cases, questions, show-and-tell.
 - [Contributing](CONTRIBUTING.md) · [Roadmap](ROADMAP.md) · [Issue templates](.github/ISSUE_TEMPLATE).
 
 ## License

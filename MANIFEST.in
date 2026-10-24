@@ -11,3 +11,4 @@ include README.zh.md
 include CONTRIBUTING.md
 include ROADMAP.md
 include docs/*.gif
+include docs/*.svg

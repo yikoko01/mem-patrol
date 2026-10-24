@@ -20,6 +20,8 @@ SQLite 记忆 ──► 巡检/诊断 ──► 可审计修复（--apply + 自�
         └────► LLM 裁判 ──► sent / handoff / tool_task / drop
 ```
 
+<p align="center"><img src="docs/demo.gif" alt="MemPatrol terminal demo" width="880"></p>
+
 ## 为什么是 MemPatrol
 
 - **默认确定性**：审计、衰减/巩固计划、意图过期、收尾闸门都是纯函数；LLM 只出现在
@@ -32,8 +34,6 @@ SQLite 记忆 ──► 巡检/诊断 ──► 可审计修复（--apply + 自�
   和真实库回放门。
 - **不绑宿主**：内核里没有 AstrBot/QQ/Telegram 类型；适配器只需构造
   `Context` 和行数据。
-
-![MemPatrol 终端 Demo](docs/demo.gif)
 
 ## 架构
 
@@ -59,7 +59,7 @@ flowchart LR
 ```bash
 pip install mem-patrol                 # PyPI
 # 或：python -m pip install .
-memorix --version                      # mem-patrol 0.3.2
+memorix --version                      # mem-patrol 0.3.3
 ```
 
 发行名是 `mem-patrol`；导入包和原 CLI 仍是 `memorix`，另有 `mem-patrol` /
@@ -196,7 +196,7 @@ MEMORIX_SCHEMA=schema.json memorix diagnose --db my.db
 
 ## 社区
 
-- [Discussions](https://github.com/yikoko01/mem-patrol/discussions)：用例、问答、show-and-tell。
+- [Discussions](https://github.com/yikoko01/mem-patrol/discussions) · [Community guide](docs/COMMUNITY.md)：用例、问答、show-and-tell。
 - [贡献指南](CONTRIBUTING.md) · [路线图](ROADMAP.md) · [Issue 模板](.github/ISSUE_TEMPLATE)。
 
 ## License

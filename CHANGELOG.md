@@ -3,6 +3,14 @@
 All notable changes to this project. The kernels are extracted read-only from the
 production AstrBot patrol/private-companion systems; production code is untouched.
 
+## [0.3.3] - 2026-10-24
+
+### Changed
+- PyPI discovery metadata: richer keywords + Beta/Developer/AI/Database/library classifiers.
+- Demo GIF moved to the top of both READMEs (centered) and now shows `memorix recall`.
+- Scaling benchmark visualization (`docs/benchmarks.svg`), community guide and first
+  GitHub Discussion; SemVer policy documented in CONTRIBUTING.
+
 ## [0.3.2] - 2026-10-24
 
 ### Added

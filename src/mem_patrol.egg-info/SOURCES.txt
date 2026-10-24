@@ -11,6 +11,7 @@ pyproject.toml
 .github/workflows/release.yml
 docs/ARCHITECTURE.md
 docs/BENCHMARKS.md
+docs/COMMUNITY.md
 docs/COMPARISON.md
 docs/DECISIONS.md
 docs/DEMO.md
@@ -36,6 +37,7 @@ docs/RELEASE.md
 docs/SCHEMA.md
 docs/USE-CASES.md
 docs/VECTOR-PROVIDER.md
+docs/benchmarks.svg
 docs/demo.gif
 eval/baseline.json
 eval/real_corpus.json

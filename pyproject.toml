@@ -4,20 +4,26 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mem-patrol"
-version = "0.3.2"
+version = "0.3.3"
 description = "Memory patrol, lexical recall and conversation gates for long-lived agents (CLI + MCP, zero runtime dependencies)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "MemPatrol contributors" }]
-keywords = ["memory", "patrol", "recall", "decision", "agent", "mcp", "sqlite", "chatbot"]
+keywords = ["memory", "memory-management", "patrol", "recall", "retrieval", "agent", "llm-agents", "mcp", "model-context-protocol", "sqlite", "chatbot", "conversation"]
 classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Environment :: Console",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Operating System :: OS Independent",
+  "Topic :: Database",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
 [project.scripts]

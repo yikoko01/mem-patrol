@@ -20,6 +20,8 @@ chat events ──► gatekeep ◄───────────────�
         └────► LLM judge ──► send / handoff / tool_task / drop
 ```
 
+<p align="center"><img src="docs/demo.gif" alt="MemPatrol terminal demo" width="880"></p>
+
 ## Why MemPatrol
 
 - **Deterministic by default.** Audits, decay/consolidation plans, intent expiry and
@@ -34,8 +36,6 @@ chat events ──► gatekeep ◄───────────────�
   snapshot first. Every release has offline eval and a real-corpus replay gate.
 - **No host lock-in.** No AstrBot/QQ/Telegram types in the kernels. Any adapter can
   build the small `Context`/rows structures.
-
-![MemPatrol terminal demo](docs/demo.gif)
 
 ## Architecture
 
@@ -61,7 +61,7 @@ Full component map: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 ```bash
 pip install mem-patrol                 # from PyPI
 # or: python -m pip install .
-memorix --version                      # mem-patrol 0.3.2
+memorix --version                      # mem-patrol 0.3.3
 ```
 
 The distribution is `mem-patrol`; the import package and original CLI remain
@@ -199,7 +199,7 @@ tables are not mapped. A privacy-preserving real-corpus replay is in
 
 ## Community
 
-- [Discussions](https://github.com/yikoko01/mem-patrol/discussions) — use cases, questions, show-and-tell.
+- [Discussions](https://github.com/yikoko01/mem-patrol/discussions) · [Community guide](docs/COMMUNITY.md) — use cases, questions, show-and-tell.
 - [Contributing](CONTRIBUTING.md) · [Roadmap](ROADMAP.md) · [Issue templates](.github/ISSUE_TEMPLATE).
 
 ## License

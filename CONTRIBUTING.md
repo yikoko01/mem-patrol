@@ -41,6 +41,17 @@ Use the templates for bugs/features. Good first issues are labeled
 `type: short summary` (e.g. `fix: handle future timestamps`, `docs: split README`).
 Keep changes reviewable; update `CHANGELOG.md` for user-visible changes.
 
+## Versioning (pre-1.0)
+
+We use SemVer-style tags while pre-1.0:
+
+- patch: bug/docs/test fix with no new behavior;
+- minor: new feature (e.g. 0.3.0 provider abstraction, 0.3.2 CLI `recall`);
+- major: only after 1.0 or for a real breaking change; any break must be called out
+  explicitly in `CHANGELOG.md`.
+
+Do not infer a breaking change from a 0.x minor alone.
+
 ## Security
 
 Do not paste production memory content, user ids, or API tokens into issues/PRs.

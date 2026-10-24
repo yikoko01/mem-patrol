@@ -17,6 +17,7 @@ Project-level files: [`../CONTRIBUTING.md`](../CONTRIBUTING.md) · [`../ROADMAP.
 - [`RELEASE.md`](RELEASE.md) — release gates and publishing
 - [`PYPI.md`](PYPI.md) — PyPI trusted publishing / token upload
 - [`NAMING.md`](NAMING.md) — bilingual naming/description copy
+- [`COMMUNITY.md`](COMMUNITY.md) — discussions, welcome thread, blog ideas
 - [`FAQ.md`](FAQ.md) — host compatibility and license
 - [`DECISIONS.md`](DECISIONS.md) — design decisions
 
