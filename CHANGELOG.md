@@ -3,6 +3,15 @@
 All notable changes to this project. The kernels are extracted read-only from the
 production AstrBot patrol/private-companion systems; production code is untouched.
 
+## [0.3.5] - 2026-10-24
+
+### Fixed
+- `memorix doctor` now enumerates **all** mem-patrol dist-info records, prefers one
+  with a version and RECORD, and warns about stale duplicate metadata.
+- Entry-point check falls back to the filesystem next to `sys.executable` when
+  metadata is stale (a failed uv upgrade can leave old dist-info behind).
+- Tester guide documents the stale-dist-info upgrade trap.
+
 ## [0.3.4] - 2026-10-24
 
 ### Added

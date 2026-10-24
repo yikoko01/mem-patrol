@@ -372,3 +372,51 @@ def test_doctor(patrol_db, capsys):
 def test_doctor_text(patrol_db, capsys):
     code, out = run(capsys, "doctor", "--db", patrol_db)
     assert code == 0 and "DOCTOR_OK" in out and "memories: 8" in out
+
+
+class _FakeDist:
+    def __init__(self, version, entrypoints, *, record=True, path="/tmp/fake.dist-info"):
+        from types import SimpleNamespace
+
+        self.metadata = {"Name": "mem-patrol"}
+        self.version = version
+        self.entry_points = [SimpleNamespace(name=name, group="console_scripts") for name in entrypoints]
+        self.files = ["mem_patrol-%s.dist-info/RECORD" % version] if record else []
+        self._path = path
+
+
+def test_doctor_duplicate_dist_info_and_metadata_fallback(monkeypatch, capsys):
+    import memorix.cli as cli
+
+    stale = _FakeDist(None, [], record=False, path="/tmp/mem_patrol-0.2.3.dist-info")
+    good = _FakeDist("0.3.5", ["memorix", "memorix-mcp", "mem-patrol", "mem-patrol-mcp"])
+    monkeypatch.setattr(cli.importlib.metadata, "distributions", lambda: [stale, good])
+    monkeypatch.setattr(
+        cli,
+        "_script_presence",
+        lambda: {"memorix": True, "memorix-mcp": True, "mem-patrol": True, "mem-patrol-mcp": True},
+    )
+    code, out = run(capsys, "doctor", "--json")
+    data = json.loads(out)
+    assert code == 0
+    assert data["version"] == __import__("memorix").__version__
+    assert len(data["distributions"]) == 2
+    assert data["entrypoints"] == ["mem-patrol", "mem-patrol-mcp", "memorix", "memorix-mcp"]
+    assert any("duplicate mem-patrol dist-info" in note for note in data["notes"])
+
+
+def test_doctor_scripts_survive_stale_metadata(monkeypatch, capsys):
+    import memorix.cli as cli
+
+    stale = _FakeDist(None, [], record=False)
+    monkeypatch.setattr(cli.importlib.metadata, "distributions", lambda: [stale])
+    monkeypatch.setattr(
+        cli,
+        "_script_presence",
+        lambda: {"memorix": True, "memorix-mcp": True, "mem-patrol": False, "mem-patrol-mcp": False},
+    )
+    code, out = run(capsys, "doctor", "--json")
+    data = json.loads(out)
+    assert code == 0
+    assert data["entrypoints"] == []
+    assert any("scripts exist" in note for note in data["notes"])

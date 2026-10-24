@@ -18,7 +18,9 @@ import argparse
 import datetime
 import importlib.metadata
 import json
+import re
 import sys
+import sysconfig
 import time
 import warnings
 from pathlib import Path
@@ -440,6 +442,64 @@ def cmd_audit(args: argparse.Namespace) -> int:
     return 1 if args.strict and result.suspicious else 0
 
 
+def _canonical_dist_name(name: str) -> str:
+    return re.sub(r"[-_.]+", "-", str(name or "")).strip().lower()
+
+
+def _dist_has_record(dist: Any) -> bool:
+    try:
+        files = dist.files or []
+    except Exception:  # noqa: BLE001 - old/partial metadata
+        return False
+    return any(str(item).endswith("dist-info/RECORD") for item in files)
+
+
+def _scan_mem_patrol_distributions() -> list[dict[str, Any]]:
+    """All mem-patrol/memorix dist-info records visible on sys.path.
+
+    A failed upgrade can leave stale dist-info without RECORD; metadata may then
+    report the old version/entrypoints even though the new package works.
+    """
+    records: list[dict[str, Any]] = []
+    try:
+        distributions = importlib.metadata.distributions()
+    except Exception:  # noqa: BLE001
+        return records
+    for dist in distributions:
+        try:
+            name = dist.metadata.get("Name") or ""
+        except Exception:  # noqa: BLE001
+            continue
+        if _canonical_dist_name(name) not in {"mem-patrol", "memorix"}:
+            continue
+        try:
+            entrypoints = sorted(
+                ep.name for ep in (dist.entry_points or []) if ep.group == "console_scripts"
+            )
+        except Exception:  # noqa: BLE001
+            entrypoints = []
+        records.append(
+            {
+                "name": name,
+                "version": dist.version or None,
+                "path": str(getattr(dist, "_path", "") or ""),
+                "has_record": _dist_has_record(dist),
+                "entrypoints": entrypoints,
+            }
+        )
+    return records
+
+
+def _script_presence() -> dict[str, bool]:
+    """Check executable scripts next to sys.executable (metadata-independent)."""
+    directory = Path(sysconfig.get_path("scripts"))
+    result: dict[str, bool] = {}
+    for name in ("memorix", "memorix-mcp", "mem-patrol", "mem-patrol-mcp"):
+        candidates = [directory / name, directory / (name + ".exe"), directory / (name + ".cmd")]
+        result[name] = any(path.exists() for path in candidates)
+    return result
+
+
 def cmd_doctor(args: argparse.Namespace) -> int:
     import memorix
 
@@ -463,12 +523,32 @@ def cmd_doctor(args: argparse.Namespace) -> int:
                 problems.append("%s file is missing: %s" % (name, path))
         except Exception as exc:  # noqa: BLE001
             problems.append("%s import failed: %s" % (name, exc))
-    entrypoints: list[str] = []
-    try:
-        dist = importlib.metadata.distribution("mem-patrol")
-        entrypoints = sorted(ep.name for ep in dist.entry_points if ep.group == "console_scripts")
-    except importlib.metadata.PackageNotFoundError:
-        notes.append("distribution mem-patrol is not installed (source checkout?)")
+    records = _scan_mem_patrol_distributions()
+    preferred = next(
+        (item for item in records if item["version"] and item["has_record"]),
+        next((item for item in records if item["version"]), records[0] if records else None),
+    )
+    entrypoints = list(preferred["entrypoints"]) if preferred else []
+    if not entrypoints and records:
+        entrypoints = sorted({name for item in records for name in item["entrypoints"]})
+    scripts = _script_presence()
+    script_found = [name for name, present in scripts.items() if present]
+    if len(records) > 1:
+        stale = "; ".join(
+            "%s version=%s record=%s" % (item["path"] or item["name"], item["version"], item["has_record"])
+            for item in records
+        )
+        notes.append(
+            "duplicate mem-patrol dist-info found (%d): %s; remove the stale/unrecorded one"
+            % (len(records), stale)
+        )
+    if not records:
+        notes.append("no mem-patrol dist-info found (source checkout?)")
+    elif not entrypoints and script_found:
+        notes.append(
+            "metadata has no console_scripts (stale dist-info?) but scripts exist: %s"
+            % ",".join(script_found)
+        )
     jieba_info = "missing"
     try:
         with warnings.catch_warnings():
@@ -490,6 +570,8 @@ def cmd_doctor(args: argparse.Namespace) -> int:
         "package_file": str(module_file),
         "package_dir_symlink": symlink,
         "entrypoints": entrypoints,
+        "entrypoint_scripts": scripts,
+        "distributions": records,
         "jieba": jieba_info,
         "db": db_info,
         "notes": notes,
@@ -501,7 +583,11 @@ def cmd_doctor(args: argparse.Namespace) -> int:
         print("DOCTOR_%s" % ("OK" if not problems else "FAIL"))
         print("version:", __version__, "python:", result["python"])
         print("package:", module_file, "symlink:", symlink)
-        print("entrypoints:", ",".join(entrypoints) or "(not installed)")
+        print("entrypoints:", ",".join(entrypoints) or "(metadata unavailable)")
+        print("scripts:", ",".join("%s=%s" % (name, "yes" if present else "no") for name, present in scripts.items()))
+        print("distributions:", len(records))
+        for item in records:
+            print("  dist:", item["path"] or item["name"], "version:", item["version"], "record:", item["has_record"])
         print("jieba:", jieba_info)
         if db_info:
             print("db:", db_info["db"], "memories:", db_info["memories"], "schema:", db_info["schema"])

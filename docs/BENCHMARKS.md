@@ -44,7 +44,7 @@ PY
 
 | gate | result |
 |---|---|
-| unit/integration tests | **379 passed** |
+| unit/integration tests | **381 passed** |
 | synthetic §10.3 replay | **6/6** |
 | real replay, current snapshot | **6/6** |
 | real replay, historical point-in-time | **5/6 + 1 documented data gap** |
