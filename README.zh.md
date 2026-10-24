@@ -22,6 +22,13 @@ SQLite 记忆 ──► 巡检/诊断 ──► 可审计修复（--apply + 自�
 
 <p align="center"><img src="docs/demo.gif" alt="MemPatrol terminal demo" width="880"></p>
 
+## 10 秒安装
+
+```bash
+pip install mem-patrol
+memorix --version        # 主 CLI；`mem-patrol` 是别名，import 仍是 `memorix`
+```
+
 ## 为什么是 MemPatrol
 
 - **默认确定性**：审计、衰减/巩固计划、意图过期、收尾闸门都是纯函数；LLM 只出现在
@@ -34,6 +41,12 @@ SQLite 记忆 ──► 巡检/诊断 ──► 可审计修复（--apply + 自�
   和真实库回放门。
 - **不绑宿主**：内核里没有 AstrBot/QQ/Telegram 类型；适配器只需构造
   `Context` 和行数据。
+
+## 零 LLM 路径
+
+大部分能力不需要模型：`memorix diagnose/recall/eval`、所有 MCP 工具、召回打分，以及
+不传 judge 的 `decide(ctx)` 都可离线运行。`decide` 无 judge 时经过确定性闸门后返回
+`candidate`；只在最终“说不说”时接宿主 judge。见 [`docs/ZERO-LLM.md`](docs/ZERO-LLM.md)。
 
 ## 架构
 

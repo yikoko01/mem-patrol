@@ -1,30 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="760" height="380" viewBox="0 0 760 380">
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="420" viewBox="0 0 860 420">
 <rect width="100%" height="100%" fill="#0d1117"/>
-<text x="20" y="30" fill="#c9d1d9" font-family="sans-serif" font-size="18">MemPatrol scaling benchmark (warm, ms; lower is better)</text>
-<text x="20" y="50" fill="#8b949e" font-family="sans-serif" font-size="12">synthetic native schema, single device; 10K vs 50K memories</text>
-<text x="20" y="74" fill="#c9d1d9" font-family="sans-serif" font-size="13">Read</text>
-<rect x="150" y="60" width="25" height="14" fill="#3fb950" rx="2"/>
-<text x="181" y="72" fill="#8b949e" font-family="sans-serif" font-size="11">49 ms · 10K</text>
-<rect x="150" y="78" width="106" height="14" fill="#d29922" rx="2"/>
-<text x="262" y="90" fill="#8b949e" font-family="sans-serif" font-size="11">200 ms · 50K</text>
-<text x="20" y="129" fill="#c9d1d9" font-family="sans-serif" font-size="13">Decay</text>
-<rect x="150" y="115" width="11" height="14" fill="#3fb950" rx="2"/>
-<text x="167" y="127" fill="#8b949e" font-family="sans-serif" font-size="11">22 ms · 10K</text>
-<rect x="150" y="133" width="57" height="14" fill="#d29922" rx="2"/>
-<text x="213" y="145" fill="#8b949e" font-family="sans-serif" font-size="11">109 ms · 50K</text>
-<text x="20" y="184" fill="#c9d1d9" font-family="sans-serif" font-size="13">Diagnose</text>
-<rect x="150" y="170" width="20" height="14" fill="#3fb950" rx="2"/>
-<text x="176" y="182" fill="#8b949e" font-family="sans-serif" font-size="11">39 ms · 10K</text>
-<rect x="150" y="188" width="108" height="14" fill="#d29922" rx="2"/>
-<text x="264" y="200" fill="#8b949e" font-family="sans-serif" font-size="11">204 ms · 50K</text>
-<text x="20" y="239" fill="#c9d1d9" font-family="sans-serif" font-size="13">Tokenize</text>
-<rect x="150" y="225" width="62" height="14" fill="#3fb950" rx="2"/>
-<text x="218" y="237" fill="#8b949e" font-family="sans-serif" font-size="11">118 ms · 10K</text>
-<rect x="150" y="243" width="483" height="14" fill="#d29922" rx="2"/>
-<text x="639" y="255" fill="#8b949e" font-family="sans-serif" font-size="11">912 ms · 50K</text>
-<text x="20" y="294" fill="#c9d1d9" font-family="sans-serif" font-size="13">Recall</text>
-<rect x="150" y="280" width="33" height="14" fill="#3fb950" rx="2"/>
-<text x="189" y="292" fill="#8b949e" font-family="sans-serif" font-size="11">63 ms · 10K</text>
-<rect x="150" y="298" width="172" height="14" fill="#d29922" rx="2"/>
-<text x="328" y="310" fill="#8b949e" font-family="sans-serif" font-size="11">325 ms · 50K</text>
+<text x="20" y="28" fill="#c9d1d9" font-family="sans-serif" font-size="18">MemPatrol scaling benchmark (warm, ms; lower is better)</text>
+<text x="20" y="48" fill="#8b949e" font-family="sans-serif" font-size="12">synthetic native schema, single device; 10K / 50K / 100K memories</text>
+<text x="20" y="76" fill="#c9d1d9" font-family="sans-serif" font-size="13">Read</text>
+<rect x="150" y="62" width="21" height="13" fill="#3fb950" rx="2"/>
+<text x="177" y="73" fill="#8b949e" font-family="sans-serif" font-size="11">49 ms · 10K</text>
+<rect x="150" y="79" width="88" height="13" fill="#d29922" rx="2"/>
+<text x="244" y="90" fill="#8b949e" font-family="sans-serif" font-size="11">200 ms · 50K</text>
+<rect x="150" y="96" width="156" height="13" fill="#f85149" rx="2"/>
+<text x="312" y="107" fill="#8b949e" font-family="sans-serif" font-size="11">354 ms · 100K</text>
+<text x="20" y="134" fill="#c9d1d9" font-family="sans-serif" font-size="13">Decay</text>
+<rect x="150" y="120" width="9" height="13" fill="#3fb950" rx="2"/>
+<text x="165" y="131" fill="#8b949e" font-family="sans-serif" font-size="11">22 ms · 10K</text>
+<rect x="150" y="137" width="48" height="13" fill="#d29922" rx="2"/>
+<text x="204" y="148" fill="#8b949e" font-family="sans-serif" font-size="11">109 ms · 50K</text>
+<rect x="150" y="154" width="69" height="13" fill="#f85149" rx="2"/>
+<text x="225" y="165" fill="#8b949e" font-family="sans-serif" font-size="11">157 ms · 100K</text>
+<text x="20" y="192" fill="#c9d1d9" font-family="sans-serif" font-size="13">Diagnose</text>
+<rect x="150" y="178" width="17" height="13" fill="#3fb950" rx="2"/>
+<text x="173" y="189" fill="#8b949e" font-family="sans-serif" font-size="11">39 ms · 10K</text>
+<rect x="150" y="195" width="90" height="13" fill="#d29922" rx="2"/>
+<text x="246" y="206" fill="#8b949e" font-family="sans-serif" font-size="11">204 ms · 50K</text>
+<rect x="150" y="212" width="558" height="13" fill="#f85149" rx="2"/>
+<text x="714" y="223" fill="#8b949e" font-family="sans-serif" font-size="11">1262 ms · 100K</text>
+<text x="20" y="250" fill="#c9d1d9" font-family="sans-serif" font-size="13">Tokenize</text>
+<rect x="150" y="236" width="52" height="13" fill="#3fb950" rx="2"/>
+<text x="208" y="247" fill="#8b949e" font-family="sans-serif" font-size="11">118 ms · 10K</text>
+<rect x="150" y="253" width="403" height="13" fill="#d29922" rx="2"/>
+<text x="559" y="264" fill="#8b949e" font-family="sans-serif" font-size="11">912 ms · 50K</text>
+<rect x="150" y="270" width="580" height="13" fill="#f85149" rx="2"/>
+<text x="736" y="281" fill="#8b949e" font-family="sans-serif" font-size="11">1310 ms · 100K</text>
+<text x="20" y="308" fill="#c9d1d9" font-family="sans-serif" font-size="13">Recall</text>
+<rect x="150" y="294" width="27" height="13" fill="#3fb950" rx="2"/>
+<text x="183" y="305" fill="#8b949e" font-family="sans-serif" font-size="11">63 ms · 10K</text>
+<rect x="150" y="311" width="143" height="13" fill="#d29922" rx="2"/>
+<text x="299" y="322" fill="#8b949e" font-family="sans-serif" font-size="11">325 ms · 50K</text>
+<rect x="150" y="328" width="247" height="13" fill="#f85149" rx="2"/>
+<text x="403" y="339" fill="#8b949e" font-family="sans-serif" font-size="11">559 ms · 100K</text>
 </svg>

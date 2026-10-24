@@ -22,6 +22,13 @@ chat events ──► gatekeep ◄───────────────�
 
 <p align="center"><img src="docs/demo.gif" alt="MemPatrol terminal demo" width="880"></p>
 
+## Install in 10 seconds
+
+```bash
+pip install mem-patrol
+memorix --version        # primary CLI; `mem-patrol` is the alias, import stays `memorix`
+```
+
 ## Why MemPatrol
 
 - **Deterministic by default.** Audits, decay/consolidation plans, intent expiry and
@@ -36,6 +43,13 @@ chat events ──► gatekeep ◄───────────────�
   snapshot first. Every release has offline eval and a real-corpus replay gate.
 - **No host lock-in.** No AstrBot/QQ/Telegram types in the kernels. Any adapter can
   build the small `Context`/rows structures.
+
+## Zero-LLM paths
+
+No model is required for most of the toolkit: `memorix diagnose/recall/eval`, all MCP tools,
+the recall scorer and `decide(ctx)` (no judge) run offline. `decide` without a judge returns
+`candidate` after the deterministic gates; wire a host judge only for the final
+speak/no-speak decision. See [`docs/ZERO-LLM.md`](docs/ZERO-LLM.md).
 
 ## Architecture
 

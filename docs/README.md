@@ -3,6 +3,7 @@
 Current, host-neutral entry points:
 
 - [`USE-CASES.md`](USE-CASES.md) — chat bot / long-term project / both
+- [`ZERO-LLM.md`](ZERO-LLM.md) — offline/no-LLM paths
 - [`DEMO.md`](DEMO.md) — 30s terminal demo (synthetic data)
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) — layers, data flow, invariants
 - [`END-TO-END.md`](END-TO-END.md) — chat interjection and repair walkthroughs
@@ -17,9 +18,12 @@ Project-level files: [`../CONTRIBUTING.md`](../CONTRIBUTING.md) · [`../ROADMAP.
 - [`RELEASE.md`](RELEASE.md) — release gates and publishing
 - [`PYPI.md`](PYPI.md) — PyPI trusted publishing / token upload
 - [`NAMING.md`](NAMING.md) — bilingual naming/description copy
+- [`LAUNCH.md`](LAUNCH.md) — Show HN / V2EX / 知乎 drafts
 - [`COMMUNITY.md`](COMMUNITY.md) — discussions, welcome thread, blog ideas
 - [`FAQ.md`](FAQ.md) — host compatibility and license
 - [`DECISIONS.md`](DECISIONS.md) — design decisions
+
+See [`../HISTORY.md`](../HISTORY.md) for active vs historical docs.
 
 Historical extraction reports: `M0-PLAN.md`, `M0.md`, `M1.md`, `M1.5.md`, `M2-PLAN.md`,
 `M2.md`, `M3-PLAN.md`, `M3.md`, `M4-PLAN.md` (if present), `M4.md`. They are audit records and

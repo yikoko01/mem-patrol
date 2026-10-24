@@ -69,13 +69,13 @@ gap, not a scorer failure. See `verify/prod-replay-20261021.md`.
 read/plan/diagnose/recall. Warm recall excludes the first jieba/anchor call; each
 number is this device, single run (not a statistically rigorous benchmark).
 
-| operation | 10K rows | 50K rows |
-|---|---:|---:|
-| `iter_memories` (read) | ~49 ms | ~200 ms |
-| `plan_decay` | ~22 ms | ~109 ms |
-| `build_diagnosis` (no state/audit) | ~39 ms | ~204 ms |
-| `load_rows` (tokenize) | ~118 ms | ~912 ms |
-| warm `recall` (top 5) | ~63 ms | ~325 ms |
+| operation | 10K rows | 50K rows | 100K rows |
+|---|---:|---:|---:|
+| `iter_memories` (read) | ~49 ms | ~200 ms | ~354 ms |
+| `plan_decay` | ~22 ms | ~109 ms | ~157 ms |
+| `build_diagnosis` (no state/audit) | ~39 ms | ~204 ms | ~1.26 s |
+| `load_rows` (tokenize) | ~118 ms | ~912 ms | ~1.31 s |
+| warm `recall` (top 5) | ~63 ms | ~325 ms | ~559 ms |
 
 ```bash
 python scripts/bench_scale.py --rows 10000 --json
@@ -83,4 +83,14 @@ python scripts/bench_scale.py --rows 50000 --json
 ```
 
 Diagnosis/decay are linear and fast; the tokenization/load step dominates scaling.
+### When to move beyond plain SQLite
+
+- **≤10K**: single-file SQLite + lexical is comfortable; diagnosis is tens of ms.
+- **10K–100K**: still workable; diagnosis/load grow to ~1s. Cache tokenized rows or run
+  diagnosis off the request path.
+- **>100K or multi-tenant semantic recall**: SQLite is a fine *source of truth*, but add an
+  ANN/vector index (or a service) for the retrieval path; keep the deterministic patrol
+  on SQLite. The interface is already `BaseRecallProvider`, so this is a provider swap,
+  not a rewrite.
+
 For 50K+ rows, cache tokenized rows or add the planned vector/ANN path.
