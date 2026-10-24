@@ -1,4 +1,4 @@
-# Release（0.3.2，GitHub + PyPI 已发布）
+# Release（0.3.2：GitHub 已发布；PyPI 待传）
 
 ## 1. 当前发布门（诚实口径）
 
@@ -11,15 +11,15 @@
 | **production §10.3 replay（historical point）** | **5 PASS / 1 DATA_GAP**（当时语料确实没有对比记忆，见 `verify/prod-replay-20261021.md`） |
 | 生产代码改动 | **0**；仅新增一条记忆 #1256（已备份，见下） |
 | 许可证 | **MIT**（0.2.2 起；0.2.0/0.2.1 为 Apache-2.0） |
-| 发布动作 | **GitHub Release `v0.3.2` 已发布**；**PyPI `mem-patrol 0.3.2` 已上传**（MIT） |
+| 发布动作 | **GitHub Release `v0.3.2` 已发布**；**PyPI 仍为 `0.3.1`**（0.3.2 upload blocked: token 403）（MIT） |
 
 > 2026-10-22 已按 B 方案补记忆 #1256（manual_remember, importance 9）：
 > `【石头门·8-23 与 8-19 难度对比】8-19 有明确根因（scoped storage/InjectActivity）；8-23 是盲改期（无 logcat、不可复现），所以更难。`
 > 当前全量回放 **6/6**；历史点时间回放仍是 **5/6 + DATA_GAP**（历史语料不能靠事后补记忆改写）。
 
 **GitHub**：<https://github.com/yikoko01/mem-patrol/releases/tag/v0.3.2>  
-**PyPI**：<https://pypi.org/project/mem-patrol/0.3.2/>  
-**CI**：3.10/3.11/3.12 全绿（`b560171`）。
+**PyPI**：<https://pypi.org/project/mem-patrol/0.3.1/>  
+**CI**：3.10/3.11/3.12 全绿（`ed724037`）。
 
 **生产写入备份**：`/sdcard/dsh-work/backups/live-messages-before-version-memory-20261022-0002.db`（integrity_check ok）。
 回滚（停 bot 后）：`delete from memories where id=1256;` 或整体恢复该 backup。
@@ -27,7 +27,7 @@
 ## 1.5 已发布的 GitHub Release
 
 - repo: <https://github.com/yikoko01/mem-patrol>
-- tag: `v0.3.2`（commit `b560171`）
+- tag: `v0.3.2`（commit `ed724037`）
 - assets: `mem_patrol-0.3.2-py3-none-any.whl`、`mem_patrol-0.3.2.tar.gz`
 - repo description / topics 已设置
 - v0.2.0/v0.2.1 是历史 release（Apache-2.0；v0.2.0 的 3.10 CI 曾红）；v0.2.2 起 MIT，CI 全绿
