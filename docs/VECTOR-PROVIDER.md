@@ -1,7 +1,9 @@
 # Vector provider design (planned, 0.3.x)
 
-Current state: **lexical only**. The `vector` provider is a documented seam, not an
-implementation. Do not claim semantic recall today.
+Current state (0.3.0): the provider interface and an optional `VectorProvider` are implemented.
+**Lexical remains the default**; no embedding model is bundled, so vector quality is not claimed
+until you supply an embedder/model and run the dual benchmark. The ONNX adapter is optional
+(`mem-patrol[vector]`).
 
 ## Interface
 
@@ -20,10 +22,11 @@ class BaseRecallProvider(Protocol):
     ) -> str: ...
 ```
 
-Implementations:
+Implemented:
 
 - `LexicalProvider` — current anchor/scorer (zero deps, default).
-- `VectorProvider` — embeddings + similarity; optional dependency.
+- `VectorProvider` — cosine similarity + embedding cache; caller-supplied embedder.
+- `OnnxEmbedder` — optional offline adapter (no model/tokenizer bundled).
 
 `recall()` stays the public API; callers do not branch on provider.
 

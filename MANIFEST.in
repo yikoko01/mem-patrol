@@ -10,3 +10,4 @@ recursive-include scripts *.py
 include README.zh.md
 include CONTRIBUTING.md
 include ROADMAP.md
+include docs/*.gif

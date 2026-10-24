@@ -35,6 +35,8 @@ chat events ──► gatekeep ◄───────────────�
 - **No host lock-in.** No AstrBot/QQ/Telegram types in the kernels. Any adapter can
   build the small `Context`/rows structures.
 
+![MemPatrol terminal demo](docs/demo.gif)
+
 ## Architecture
 
 ```mermaid
@@ -59,7 +61,7 @@ Full component map: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 ```bash
 pip install mem-patrol                 # from PyPI
 # or: python -m pip install .
-memorix --version                      # mem-patrol 0.2.4
+memorix --version                      # mem-patrol 0.3.0
 ```
 
 The distribution is `mem-patrol`; the import package and original CLI remain
@@ -113,6 +115,20 @@ if outcome.action == "sent":
 The judge is only called after the cheap gates pass. Directed messages (@/reply/name)
 take a fast path. Step-by-step walkthrough: [`docs/END-TO-END.md`](docs/END-TO-END.md).
 
+## Recall backends (lexical default, vector optional)
+
+```python
+from memorix.retrieval.provider import make_provider
+
+provider = make_provider("lexical")                 # default, zero deps
+# provider = make_provider("vector", embedder=embed_batch)  # bring your own embeddings
+block = provider.recall(user_message, rows=rows, context=context, user_id=user_id)
+```
+
+`VectorProvider` is an **optional** path (cosine + embedding cache); no model is bundled.
+The ONNX adapter is in `memorix.retrieval.vector_onnx` (`pip install 'mem-patrol[vector]'`).
+Lexical remains the default until vector wins on the real corpus without regressions.
+
 ## MCP
 
 ```json
@@ -156,7 +172,7 @@ tables are not mapped. A privacy-preserving real-corpus replay is in
 
 ## Quality and benchmarks
 
-- **368 tests**; CI on Python 3.10 / 3.11 / 3.12.
+- **374 tests**; CI on Python 3.10 / 3.11 / 3.12.
 - Synthetic §10.3 replay: **6/6**; real production replay: **6/6 current**,
   **5/6 historical** (one data gap documented, not an algorithm failure).
 - On a 1,238-memory read-only snapshot: cold load ~**0.18 s**, warm recall median

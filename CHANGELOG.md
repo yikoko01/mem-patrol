@@ -3,6 +3,15 @@
 All notable changes to this project. The kernels are extracted read-only from the
 production AstrBot patrol/private-companion systems; production code is untouched.
 
+## [0.3.0] - 2026-10-24
+
+### Added
+- Pluggable recall providers: `LexicalProvider` (default) and optional
+  `VectorProvider` with a caller-supplied batch embedder; optional ONNX adapter
+  (`mem-patrol[vector]`). No embedding model is bundled; lexical stays default.
+- 30-second terminal demo (`docs/demo.gif`) generated from real CLI output on
+  synthetic data.
+
 ## [0.2.4] - 2026-10-24
 
 ### Changed

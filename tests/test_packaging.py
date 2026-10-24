@@ -14,13 +14,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_version_is_release_version():
-    assert memorix.__version__ == "0.2.4"
+    assert memorix.__version__ == "0.3.0"
 
 
 def test_pyproject_scripts_and_license():
     data = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     assert data["project"]["name"] == "mem-patrol"
-    assert data["project"]["version"] == "0.2.4"
+    assert data["project"]["version"] == "0.3.0"
     scripts = data["project"]["scripts"]
     assert scripts["memorix"] == "memorix.cli:main"
     assert scripts["memorix-mcp"] == "memorix.mcp.server:main"

@@ -33,6 +33,8 @@ SQLite 记忆 ──► 巡检/诊断 ──► 可审计修复（--apply + 自�
 - **不绑宿主**：内核里没有 AstrBot/QQ/Telegram 类型；适配器只需构造
   `Context` 和行数据。
 
+![MemPatrol 终端 Demo](docs/demo.gif)
+
 ## 架构
 
 ```mermaid
@@ -57,7 +59,7 @@ flowchart LR
 ```bash
 pip install mem-patrol                 # PyPI
 # 或：python -m pip install .
-memorix --version                      # mem-patrol 0.2.4
+memorix --version                      # mem-patrol 0.3.0
 ```
 
 发行名是 `mem-patrol`；导入包和原 CLI 仍是 `memorix`，另有 `mem-patrol` /
@@ -111,6 +113,20 @@ if outcome.action == "sent":
 裁判只在便宜闸门通过后调用；@/回复/叫名字走定向快路径。完整流程见
 [`docs/END-TO-END.md`](docs/END-TO-END.md)。
 
+## 召回后端（默认为 lexical，可选 vector）
+
+```python
+from memorix.retrieval.provider import make_provider
+
+provider = make_provider("lexical")                 # 默认，零依赖
+# provider = make_provider("vector", embedder=embed_batch)  # 自带 embedding
+block = provider.recall(user_message, rows=rows, context=context, user_id=user_id)
+```
+
+`VectorProvider` 是**可选**路径（cosine + embedding 缓存），不内置模型。
+ONNX 适配器在 `memorix.retrieval.vector_onnx`（`pip install 'mem-patrol[vector]'`）。
+在真实库上不输给 lexical 之前，默认不变。
+
 ## MCP
 
 ```json
@@ -154,7 +170,7 @@ MEMORIX_SCHEMA=schema.json memorix diagnose --db my.db
 
 ## 质量与基准
 
-- **368 tests**；CI 覆盖 Python 3.10 / 3.11 / 3.12。
+- **374 tests**；CI 覆盖 Python 3.10 / 3.11 / 3.12。
 - §10.3 合成回放 **6/6**；真实库回放 **current 6/6**、**historical 5/6**
   （一个数据缺口，不是算法 fail）。
 - 1,238 条记忆的只读快照：冷加载 ~**0.18 s**，热召回中位 ~**43 ms**，

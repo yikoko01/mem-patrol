@@ -3,6 +3,7 @@
 Current, host-neutral entry points:
 
 - [`USE-CASES.md`](USE-CASES.md) — chat bot / long-term project / both
+- [`DEMO.md`](DEMO.md) — 30s terminal demo (synthetic data)
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) — layers, data flow, invariants
 - [`END-TO-END.md`](END-TO-END.md) — chat interjection and repair walkthroughs
 - [`BENCHMARKS.md`](BENCHMARKS.md) — measured latency/size and quality gates
