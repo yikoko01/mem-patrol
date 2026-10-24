@@ -3,6 +3,13 @@
 All notable changes to this project. The kernels are extracted read-only from the
 production AstrBot patrol/private-companion systems; production code is untouched.
 
+## [0.2.4] - 2026-10-24
+
+### Changed
+- English-first `README.md` + separate `README.zh.md`; architecture, end-to-end,
+  benchmarks, comparison and vector-provider design docs; contribution templates
+  and roadmap; 10K/50K scaling benchmark; license rationale.
+
 ## [0.2.3] - 2026-10-22
 
 ### Added
