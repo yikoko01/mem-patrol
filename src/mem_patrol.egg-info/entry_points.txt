@@ -1,5 +1,0 @@
-[console_scripts]
-mem-patrol = memorix.cli:main
-mem-patrol-mcp = memorix.mcp.server:main
-memorix = memorix.cli:main
-memorix-mcp = memorix.mcp.server:main

@@ -72,7 +72,7 @@ flowchart LR
 ```bash
 pip install mem-patrol                 # PyPI
 # 或：python -m pip install .
-memorix --version                      # mem-patrol 0.3.8
+memorix --version                      # mem-patrol 0.3.9
 ```
 
 发行名是 `mem-patrol`；导入包和原 CLI 仍是 `memorix`，另有 `mem-patrol` /
@@ -166,7 +166,7 @@ lexical 召回不认识同义词。用内置示例，下面两问都会返回 `(
 }
 ```
 
-6 个**只读**工具：`memorix_diagnose`、`memorix_orphan`、`memorix_recall`、
+6 个**只读**工具（显式声明 `readOnlyHint`/`destructiveHint`/`idempotentHint`/`openWorldHint`）：`memorix_diagnose`、`memorix_orphan`、`memorix_recall`、
 `memorix_gate_check`、`memorix_judge_replay`、`memorix_eval`。见 [`docs/MCP.md`](docs/MCP.md)。
 
 ## 两种模式
@@ -196,7 +196,7 @@ MEMORIX_SCHEMA=schema.json memorix diagnose --db my.db
 
 ## 质量与基准
 
-- **387 tests**；CI 覆盖 Python 3.10 / 3.11 / 3.12。
+- **388 tests**；CI 覆盖 Python 3.10 / 3.11 / 3.12。
 - §10.3 合成回放 **6/6**；真实库回放 **current 6/6**、**historical 5/6**
   （一个数据缺口，不是算法 fail）。
 - 1,238 条记忆的只读快照：冷加载 ~**0.18 s**，热召回中位 ~**43 ms**，

@@ -175,6 +175,12 @@ def _eval(arguments: Mapping[str, Any], default_db: str | None) -> str:
 
 
 _DB = {"type": "string", "description": "patrol SQLite database path"}
+_READ_ONLY_ANNOTATIONS = {
+    "readOnlyHint": True,
+    "destructiveHint": False,
+    "idempotentHint": True,
+    "openWorldHint": False,
+}
 _DISPATCH = {
     "memorix_diagnose": _diagnose,
     "memorix_orphan": _orphan,
@@ -188,6 +194,7 @@ TOOL_DEFS: list[dict] = [
     {
         "name": "memorix_diagnose",
         "description": "Read-only health diagnosis of a patrol database (orphans, decay, intents, audit drift, data quality).",
+        "annotations": _READ_ONLY_ANNOTATIONS,
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -205,6 +212,7 @@ TOOL_DEFS: list[dict] = [
     {
         "name": "memorix_orphan",
         "description": "List orphan batches (memories written after the last finish).",
+        "annotations": _READ_ONLY_ANNOTATIONS,
         "inputSchema": {
             "type": "object",
             "properties": {"db": _DB, "schema": {"type": "string"}, "state": {"type": "string"}},
@@ -214,6 +222,7 @@ TOOL_DEFS: list[dict] = [
     {
         "name": "memorix_recall",
         "description": "Lexical memory recall (anchor-aware) against a patrol database; returns the prompt-ready block.",
+        "annotations": _READ_ONLY_ANNOTATIONS,
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -233,6 +242,7 @@ TOOL_DEFS: list[dict] = [
     {
         "name": "memorix_gate_check",
         "description": "Run the deterministic gatekeep gates (no LLM) on a candidate message; returns action + per-gate trace.",
+        "annotations": _READ_ONLY_ANNOTATIONS,
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -248,11 +258,13 @@ TOOL_DEFS: list[dict] = [
     {
         "name": "memorix_judge_replay",
         "description": "Run the judge replay corpus (9 cases) and report pass/fail.",
+        "annotations": _READ_ONLY_ANNOTATIONS,
         "inputSchema": {"type": "object", "properties": {}},
     },
     {
         "name": "memorix_eval",
         "description": "Run the offline evaluation suites (recall/judge/policy) or one of them.",
+        "annotations": _READ_ONLY_ANNOTATIONS,
         "inputSchema": {
             "type": "object",
             "properties": {"suite": {"type": "string", "enum": ["all", "recall", "judge", "policy"]}},

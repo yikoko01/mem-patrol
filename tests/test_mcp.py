@@ -23,7 +23,7 @@ def request(method, params=None, request_id=1):
 
 
 def test_version():
-    assert __version__ == "0.3.8"
+    assert __version__ == "0.3.9"
 
 
 def test_initialize_latest_and_legacy():
@@ -189,3 +189,14 @@ def test_profile_rejects_disallowed_tool(make_patrol_db):
     )
     assert allowed["result"]["isError"] is False
     assert "石头门" in allowed["result"]["content"][0]["text"]
+
+
+def test_tools_have_read_only_annotations():
+    expected = {
+        "readOnlyHint": True,
+        "destructiveHint": False,
+        "idempotentHint": True,
+        "openWorldHint": False,
+    }
+    assert all(tool.get("annotations") == expected for tool in TOOL_DEFS)
+    assert len(TOOL_DEFS) == 6

@@ -1,12 +1,12 @@
 # Roadmap
 
-Current release: **0.3.8** (GitHub Release + PyPI `mem-patrol`).
+Current release: **0.3.9** (GitHub Release + PyPI `mem-patrol`).
 
 | version | goal | content | status |
 |---|---|---|---|
-| 0.3.8 | finish the front door | CI/PyPI/README badges, EN/ZH split, architecture + end-to-end docs, contribution templates, 10K/50K scaling benchmark, license rationale | **released** |
-| 0.2.5 | demo / story | 30s terminal demo (GIF) + end-to-end story | **demo delivered** (bundled in 0.3.8) |
-| 0.3.8 | technical step | provider abstraction + optional `VectorProvider` + ONNX adapter; lexical remains default | **released** |
+| 0.3.9 | finish the front door | CI/PyPI/README badges, EN/ZH split, architecture + end-to-end docs, contribution templates, 10K/50K scaling benchmark, license rationale | **released** |
+| 0.2.5 | demo / story | 30s terminal demo (GIF) + end-to-end story | **demo delivered** (bundled in 0.3.9) |
+| 0.3.9 | technical step | provider abstraction + optional `VectorProvider` + ONNX adapter; lexical remains default | **released** |
 
 ## Not planned (yet)
 

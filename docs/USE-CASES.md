@@ -98,4 +98,4 @@ if gate.action == "sent":
 - 聊天面：本包不含具体 IM 适配器（任意 IM 事件 → `Context`）与真实 LLM 调用；需要宿主 adapter。
 - 项目面：`SQLiteStore` 目前假定 `memories/raw_messages/bot_messages` 三表（从生产 schema 抽的）；
   别的项目库需要写一个 `StorageAdapter`（这是 post-M4 的第一优先级）。
-- 发布：v0.3.8 已发布到 GitHub Release（PyPI 尚未上传）；`dist/*` 可直接 pip 装。
+- 发布：v0.3.9 已发布到 GitHub Release（PyPI 尚未上传）；`dist/*` 可直接 pip 装。

@@ -75,7 +75,7 @@ Full component map: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 ```bash
 pip install mem-patrol                 # from PyPI
 # or: python -m pip install .
-memorix --version                      # mem-patrol 0.3.8
+memorix --version                      # mem-patrol 0.3.9
 ```
 
 The distribution is `mem-patrol`; the import package and original CLI remain
@@ -170,7 +170,7 @@ optional seam (`make_provider("vector", embedder=...)`); no model is bundled. Se
 }
 ```
 
-Six **read-only** tools: `memorix_diagnose`, `memorix_orphan`, `memorix_recall`,
+Six **read-only** tools (explicit `readOnlyHint`/`destructiveHint`/`idempotentHint`/`openWorldHint` annotations): `memorix_diagnose`, `memorix_orphan`, `memorix_recall`,
 `memorix_gate_check`, `memorix_judge_replay`, `memorix_eval`. See [`docs/MCP.md`](docs/MCP.md).
 
 ## Two modes
@@ -200,7 +200,7 @@ tables are not mapped. A privacy-preserving real-corpus replay is in
 
 ## Quality and benchmarks
 
-- **387 tests**; CI on Python 3.10 / 3.11 / 3.12.
+- **388 tests**; CI on Python 3.10 / 3.11 / 3.12.
 - Synthetic §10.3 replay: **6/6**; real production replay: **6/6 current**,
   **5/6 historical** (one data gap documented, not an algorithm failure).
 - On a 1,238-memory read-only snapshot: cold load ~**0.18 s**, warm recall median

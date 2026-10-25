@@ -3,6 +3,13 @@
 All notable changes to this project. The kernels are extracted read-only from the
 production AstrBot patrol/private-companion systems; production code is untouched.
 
+## [0.3.9] - 2026-10-25
+
+### Added
+- MCP tool annotations (`readOnlyHint=true`, `destructiveHint=false`,
+  `idempotentHint=true`, `openWorldHint=false`) on all six tools, for hosts and
+  directories that require explicit side-effect hints.
+
 ## [0.3.8] - 2026-10-24
 
 ### Fixed
